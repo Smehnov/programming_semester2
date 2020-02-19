@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        //export LAB_DATA_PATH="data.xml" before using
+        //export LAB_DATA_PATH="data.xml"
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
 
@@ -14,8 +14,10 @@ public class Main {
         if (dataPath == null) {
             System.out.println("ERROR\nSet environment variable with path to you data file(.xml)");
             isWorking = false;
+            System.out.println("Exit...");
+        } else {
+            System.out.println("Getting data from file " + dataPath);
         }
-        System.out.println("Exit...");
 
 
         while (isWorking) {
