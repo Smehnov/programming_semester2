@@ -2,10 +2,21 @@ import java.util.Scanner;
 
 public class Main {
 
-
     public static void main(String[] args) {
+        //export LAB_DATA_PATH="data.xml" before using
+        final String nameOfEnvVar = "LAB_DATA_PATH";
+        String dataPath = System.getenv(nameOfEnvVar);
+
         Scanner sc = new Scanner(System.in);
         boolean isWorking = true;
+
+
+        if (dataPath == null) {
+            System.out.println("ERROR\nSet environment variable with path to you data file(.xml)");
+            isWorking = false;
+        }
+        System.out.println("Exit...");
+
 
         while (isWorking) {
             System.out.println("\nChoose your action:");
