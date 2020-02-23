@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Main {
@@ -6,6 +10,34 @@ public class Main {
         //export LAB_DATA_PATH="data.xml"
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
+
+        //Comparator for music bands via creation date
+        Comparator<MusicBand> MusicBandComporator = new Comparator<MusicBand>(){
+            @Override
+            public int compare(MusicBand B1, MusicBand B2){
+                return B1.getDate().compareTo(B2.getDate());
+            }
+        };
+
+
+        //TODO file reading input
+        PriorityQueue<MusicBand> Collection = new PriorityQueue<MusicBand>(1, MusicBandComporator);
+        LocalDateTime Inizialization_time = LocalDateTime.now();
+
+/*
+        //Example of Music Band for test
+        MusicBand alestorm = new MusicBand();
+        alestorm.setId(1);
+        alestorm.setName("alestorm");
+        alestorm.setCoordinates(new Coordinates(100, (long)20));
+        alestorm.setGenre(MusicGenre.BLUES);
+        alestorm.setNumberOfParticipants(9);
+        alestorm.setCreationDate(ZonedDateTime.now());
+        alestorm.setBestAlbum(new Album("Cracken",(long)22));
+
+        Collection.add(alestorm);
+*/
+
 
         Scanner sc = new Scanner(System.in);
         boolean isWorking = true;
@@ -20,6 +52,8 @@ public class Main {
         }
 
 
+
+
         while (isWorking) {
             System.out.println("\nChoose your action:");
             String action = sc.next();
@@ -32,6 +66,7 @@ public class Main {
                     break;
                 case "info":
                     //TODO info
+                    showInfo(Collection, Inizialization_time);
                     break;
                 case "show":
                     //TODO show
@@ -102,5 +137,21 @@ public class Main {
                 "sum_of_number_of_participants : вывести сумму значений поля numberOfParticipants для всех элементов коллекции\n" +
                 "filter_by_number_of_participants numberOfParticipants : вывести элементы, значение поля numberOfParticipants которых равно заданному\n" +
                 "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
+    }
+
+    static void showInfo(PriorityQueue<MusicBand> Q, LocalDateTime Time) {
+        System.out.println("Тип: PriorityQueue\n"+
+                "Дата инициализации: "+ Time+'\n'+
+                "Количество элементов: " + Q.size()+'\n'
+                //TODO some more info
+                );
+    }
+
+    static void show(PriorityQueue<MusicBand> Q){
+        for (MusicBand Band: Q)
+        {
+            System.out.println(Band.toString()+"\n\n");
+
+        }
     }
 }
