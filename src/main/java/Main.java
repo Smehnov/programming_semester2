@@ -1,8 +1,8 @@
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import javax.xml.bind.JAXBException;
 
 public class Main {
 
@@ -12,31 +12,44 @@ public class Main {
         String dataPath = System.getenv(nameOfEnvVar);
 
         //Comparator for music bands via creation date
-        Comparator<MusicBand> MusicBandComporator = new Comparator<MusicBand>(){
+        Comparator<MusicBand> musicBandComparator = new Comparator<MusicBand>() {
             @Override
-            public int compare(MusicBand B1, MusicBand B2){
+            public int compare(MusicBand B1, MusicBand B2) {
                 return B1.getDate().compareTo(B2.getDate());
             }
         };
 
 
         //TODO file reading input
-        PriorityQueue<MusicBand> Collection = new PriorityQueue<MusicBand>(1, MusicBandComporator);
-        LocalDateTime Inizialization_time = LocalDateTime.now();
+        MusicBandsData musicBandsData = new MusicBandsData();
+        PriorityQueue<MusicBand> collection = musicBandsData.getQueue();
+        //PriorityQueue<MusicBand> collection = new PriorityQueue<>(1);
+        //LocalDateTime inizializationTime = LocalDateTime.now();
 
-/*
+
         //Example of Music Band for test
         MusicBand alestorm = new MusicBand();
         alestorm.setId(1);
         alestorm.setName("alestorm");
-        alestorm.setCoordinates(new Coordinates(100, (long)20));
+        alestorm.setCoordinates(new Coordinates(100, (long) 20));
         alestorm.setGenre(MusicGenre.BLUES);
         alestorm.setNumberOfParticipants(9);
         alestorm.setCreationDate(ZonedDateTime.now());
-        alestorm.setBestAlbum(new Album("Cracken",(long)22));
+        alestorm.setBestAlbum(new Album("Cracken", (long) 22));
 
-        Collection.add(alestorm);
-*/
+
+        MusicBand alestorm1 = new MusicBand();
+        alestorm1.setId(1);
+        alestorm1.setName("alestorm");
+        alestorm1.setCoordinates(new Coordinates(100, (long) 20));
+        alestorm1.setGenre(MusicGenre.BLUES);
+        alestorm1.setNumberOfParticipants(9);
+        alestorm1.setCreationDate(ZonedDateTime.now());
+        alestorm1.setBestAlbum(new Album("Cracken", (long) 22));
+
+
+        collection.add(alestorm);
+        collection.add(alestorm1);
 
 
         Scanner sc = new Scanner(System.in);
@@ -48,10 +61,27 @@ public class Main {
             isWorking = false;
             System.out.println("Exit...");
         } else {
-            System.out.println("Getting data from file " + dataPath);
+            //TODO REMOVE
+            System.out.println("Saving test data...");
+            try {
+                FileManager.saveToXml(musicBandsData, dataPath);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+                System.out.println("Error while saving");
+            }
+
+
+            System.out.println("Getting data from file " + dataPath + " ...");
+            try {
+                musicBandsData = FileManager.readFromXML(dataPath);
+                System.out.println("Got data");
+
+            } catch (JAXBException e) {
+                System.out.println(e.getStackTrace());
+                System.out.println("error while reading data from XML");
+            }
+
         }
-
-
 
 
         while (isWorking) {
@@ -66,7 +96,7 @@ public class Main {
                     break;
                 case "info":
                     //TODO info
-                    showInfo(Collection, Inizialization_time);
+                    showInfo(musicBandsData);
                     break;
                 case "show":
                     //TODO show
@@ -139,18 +169,18 @@ public class Main {
                 "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
     }
 
-    static void showInfo(PriorityQueue<MusicBand> Q, LocalDateTime Time) {
-        System.out.println("Тип: PriorityQueue\n"+
-                "Дата инициализации: "+ Time+'\n'+
-                "Количество элементов: " + Q.size()+'\n'
+    static void showInfo(MusicBandsData data) {
+        System.out.println("Тип: PriorityQueue\n" +
+                        "Дата инициализации: " + data.getInizializationTime() + '\n' +
+                        "Количество элементов: " + data.getQueue().size() + '\n'
                 //TODO some more info
-                );
+        );
     }
 
-    static void show(PriorityQueue<MusicBand> Q){
-        for (MusicBand Band: Q)
-        {
-            System.out.println(Band.toString()+"\n\n");
+    static void show(PriorityQueue<MusicBand> queue) {
+        System.out.println("Queue elements: ");
+        for (MusicBand band : queue) {
+            System.out.println(band.toString() + "\n\n");
 
         }
     }
