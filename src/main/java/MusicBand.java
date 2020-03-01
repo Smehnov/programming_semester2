@@ -3,60 +3,105 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.time.ZonedDateTime;
 
+/** Класс для музыкальной банды. */
 @XmlType(name = "MusicBand")
 @XmlRootElement
 public class MusicBand implements Comparable<MusicBand> {
 
-
+    /** Field for unique ID of music band*/
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-
+    /** Field for name of band*/
     private String name; //Поле не может быть null, Строка не может быть пустой
 
+    /** Field for coordinates*/
     @XmlElement(name = "coordinates")
     private Coordinates coordinates; //Поле не может быть null
+    /** Field for auto-generated value of creation date*/
     @XmlElement(name = "creationDate")
     private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    /** Field for number of Participants of Music Band*/
     private long numberOfParticipants; //Значение поля должно быть больше 0
+    /** Field for Music Genre of group. Could be null*/
     private MusicGenre genre; //Поле может быть null
+    /** Filed for best album of Band. Could be null*/
     private Album bestAlbum; //Поле может быть null
 
+    /**
+     * Getter for creation date
+     * @return this.creationDate
+     */
     public ZonedDateTime getDate() {
         return this.creationDate;
     }
 
+    /**
+     * Setter for ID
+     * @param id - unique ID of music band.
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Setter for name
+     * @param name - name of music band
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Setter for coordinates
+     * @param coordinates
+     */
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
 
+    /**
+     * Setter for creation date
+     * @param creationDate
+     */
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
+    /**
+     * Setter for number of participants
+     * @param numberOfParticipants - number of music band
+     */
     public void setNumberOfParticipants(long numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
     }
 
+    /**
+     * Setter for genre of music bands
+     * @param genre - genre of music band
+     */
     public void setGenre(MusicGenre genre) {
         this.genre = genre;
     }
 
+    /**
+     * Setter for the best album
+     * @param bestAlbum - best album
+     */
     public void setBestAlbum(Album bestAlbum) {
         this.bestAlbum = bestAlbum;
     }
-
+    /**
+     * Getter for unique ID of music band
+     * @return id
+     */
     @XmlElement(name = "id")
     public long getId() {
         return id;
     }
 
+    /**
+     * Getter for name of music band
+     * @return name
+     */
     @XmlElement(name = "name")
     public String getName() {
         return name;
@@ -69,19 +114,31 @@ public class MusicBand implements Comparable<MusicBand> {
 //    public ZonedDateTime getCreationDate() {
 //        return creationDate;
 //    }
-
+    /**
+     * Getter for number of participants for music bands
+     * @return numberOfParticipants
+     */
     public long getNumberOfParticipants() {
         return numberOfParticipants;
     }
 
+    /**
+     * Getter for genre of music bands
+     * @return genre
+     */
     public MusicGenre getGenre() {
         return genre;
     }
-
+    /**
+     * Getter for the best album of music bands
+     * @return bestAlbum
+     */
     public Album getBestAlbum() {
         return bestAlbum;
     }
-
+    /**
+     * to string transformation into list of params and their values
+     */
     @Override
     public String toString() {
         String info = "• id: " + this.id + '\n' +
@@ -93,7 +150,9 @@ public class MusicBand implements Comparable<MusicBand> {
                 "• Best Album: " + this.bestAlbum + '\n';
         return info;
     }
-
+    /**
+     * Method to compare music bands via their names
+     */
     @Override
     public int compareTo(MusicBand B2) {
         return this.getName().compareTo(B2.getName());

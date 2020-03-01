@@ -5,12 +5,15 @@ import java.util.Scanner;
 import javax.xml.bind.JAXBException;
 
 public class Main {
-
+    /**
+     * Entry point of whole program
+     * @param args - useless args in program executing
+     */
     public static void main(String[] args) {
         //export LAB_DATA_PATH="data.xml"
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
-
+        dataPath = "C:\\Users\\Alexandra\\Desktop\\1.xml";
         //Comparator for music bands via creation date
         Comparator<MusicBand> musicBandComparator = new Comparator<MusicBand>() {
             @Override
@@ -149,7 +152,9 @@ public class Main {
         }
     }
 
-
+    /**
+     * Method to show available commands
+     */
     static void showHelp() {
         System.out.println("help : вывести справку по доступным командам\n" +
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
@@ -169,6 +174,10 @@ public class Main {
                 "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
     }
 
+    /**
+     * Show info about queue
+     * @param data
+     */
     static void showInfo(MusicBandsData data) {
         System.out.println("Тип: PriorityQueue\n" +
                         "Дата инициализации: " + data.getInizializationTime() + '\n' +
@@ -177,6 +186,10 @@ public class Main {
         );
     }
 
+    /**
+     * Method to show info about every element of queue
+     * @param queue
+     */
     static void show(PriorityQueue<MusicBand> queue) {
         System.out.println("Queue elements: ");
         for (MusicBand band : queue) {
