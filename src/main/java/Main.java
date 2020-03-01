@@ -1,7 +1,5 @@
 import java.time.ZonedDateTime;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 import javax.xml.bind.JAXBException;
 
 public class Main {
@@ -78,7 +76,7 @@ public class Main {
 
 
         while (isWorking) {
-            System.out.println("\nChoose your action:");
+            System.out.println("Choose your action:");
             String action = sc.next();
 
             //TODO regex for custom values( id / {element})
@@ -95,8 +93,9 @@ public class Main {
                     show(musicBandsData.getQueue());
                     //TODO show
                     break;
-                case "add {element}":
+                case "add":
                     //TODO add {element}
+                    addElement(musicBandsData);
                     break;
                 case "update id {element}":
                     //TODO update id {element}
@@ -108,7 +107,7 @@ public class Main {
                     //TODO clear
                     break;
                 case "save":
-                    //TODO save
+                    saveToFile(musicBandsData, dataPath);
                     break;
                 case "execute_script file_name":
                     //TODO execute_script file_name
@@ -174,6 +173,12 @@ public class Main {
                 "Поля с комментарием \"Значение этого поля должно генерироваться автоматически\" не должны вводиться пользователем вручную при добавлении.");
     }
 
+    static void addElement(MusicBandsData data) {
+        MusicBand musicBand = inputtingMusingBand();
+        data.getQueue().add(musicBand);
+        System.out.println("New element was added");
+    }
+
     /**
      * Show info about queue
      *
@@ -181,8 +186,8 @@ public class Main {
      */
     static void showInfo(MusicBandsData data) {
         System.out.println("Тип: PriorityQueue\n" +
-                        "Дата инициализации: " + data.getInizializationTime() + '\n' +
-                        "Количество элементов: " + data.getQueue().size() + '\n'
+                "Дата инициализации: " + data.getInizializationTime() + '\n' +
+                "Количество элементов: " + data.getQueue().size() + '\n'
 
         );
     }
@@ -214,5 +219,76 @@ public class Main {
                 System.out.println("Error while saving");
             }
         }
+    }
+
+    static MusicBand inputtingMusingBand() {
+        Scanner sc = new Scanner(System.in);
+        MusicBand musicBand = new MusicBand();
+        System.out.println("Enter name");
+        String name = "";
+        while (name.equals("")) {
+            name = sc.next().trim();
+            if (name.equals("")) {
+                System.out.println("Field can't be empty");
+            }
+        }
+        System.out.println("Enter coordinate X");
+        Integer coordX = sc.nextInt();
+        System.out.println("Enter coordinate Y");
+        Long coordY = sc.nextLong();
+
+        System.out.println("Enter number of participants");
+        long numberOfParticipants = 0;
+        while (numberOfParticipants <= 0) {
+            numberOfParticipants = sc.nextLong();
+            if (numberOfParticipants <= 0) {
+                System.out.println("Number of participants must be greater then 0");
+            }
+        }
+
+        MusicGenre genre = null;
+        MusicGenre[] possibleGenres = MusicGenre.values();
+        String[] possibleGenresStrings = new String[possibleGenres.length];
+        for (int i = 0; i < possibleGenres.length; i++) {
+            MusicGenre possibleGenre = possibleGenres[i];
+            possibleGenresStrings[i] = possibleGenre.name();
+        }
+        System.out.println("Enter music genre(" + String.join(", ", possibleGenresStrings) + ") or leave it empty for null");
+        boolean correctInput = false;
+        while (!correctInput) {
+            List<String> genresList = Arrays.asList(possibleGenresStrings);
+
+            String genreS = sc.next();
+            if (!genresList.contains(genreS) && !genreS.equals("")) {
+                System.out.println("Enter genre from the list(" + String.join(", ", possibleGenresStrings) + ") or leave it empty for null");
+            } else {
+                if(genresList.contains(genreS)){
+                    genre = MusicGenre.valueOf(genreS);
+                }
+                correctInput = true;
+            }
+        }
+
+        Album bestAlbum = null;
+        System.out.println("Enter the name of the best album(or leave it empty for null");
+        String albumNameInput = sc.next().trim();
+        if (!albumNameInput.equals("")) {
+            System.out.println("Enter best album length");
+            Long albumLength = (long) 0;
+            while (albumLength <= 0) {
+                albumLength = sc.nextLong();
+                if (albumLength <= 0) {
+                    System.out.println("Album length must be greater then 0");
+                }
+            }
+            bestAlbum = new Album(albumNameInput, albumLength);
+        }
+
+        musicBand.setName(name);
+        musicBand.setCoordinates(coordX, coordY);
+        musicBand.setNumberOfParticipants(numberOfParticipants);
+        musicBand.setGenre(genre);
+        musicBand.setBestAlbum(bestAlbum);
+        return musicBand;
     }
 }

@@ -23,6 +23,7 @@ public class Coordinates {
         this.y = y;
     }
 
+
     /** Getter for x
      *
      * @return this.x
