@@ -1,10 +1,11 @@
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "album")
+
 /**
  * Class Album with Name and length as fields
  */
+@XmlType(name = "album")
 public class Album {
     @XmlElement(name = "name")
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -39,6 +40,11 @@ public class Album {
      */
     public Long getLength() {
         return length;
+    }
+
+    @Override
+    public String toString(){
+        return this.name;
     }
 
 }

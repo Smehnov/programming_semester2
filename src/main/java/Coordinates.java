@@ -38,4 +38,9 @@ public class Coordinates {
     public Long getY() {
         return this.y;
     }
+
+    @Override
+    public String toString(){
+        return "{x= "+ this.x+" y= " + this.y+"}";
+    }
 }

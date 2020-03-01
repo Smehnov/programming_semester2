@@ -7,13 +7,13 @@ import javax.xml.bind.JAXBException;
 public class Main {
     /**
      * Entry point of whole program
+     *
      * @param args - useless args in program executing
      */
     public static void main(String[] args) {
         //export LAB_DATA_PATH="data.xml"
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
-        dataPath = "C:\\Users\\Alexandra\\Desktop\\1.xml";
         //Comparator for music bands via creation date
         Comparator<MusicBand> musicBandComparator = new Comparator<MusicBand>() {
             @Override
@@ -26,33 +26,33 @@ public class Main {
         //TODO file reading input
         MusicBandsData musicBandsData = new MusicBandsData();
         PriorityQueue<MusicBand> collection = musicBandsData.getQueue();
-        //PriorityQueue<MusicBand> collection = new PriorityQueue<>(1);
-        //LocalDateTime inizializationTime = LocalDateTime.now();
-
-
-        //Example of Music Band for test
-        MusicBand alestorm = new MusicBand();
-        alestorm.setId(1);
-        alestorm.setName("alestorm");
-        alestorm.setCoordinates(new Coordinates(100, (long) 20));
-        alestorm.setGenre(MusicGenre.BLUES);
-        alestorm.setNumberOfParticipants(9);
-        alestorm.setCreationDate(ZonedDateTime.now());
-        alestorm.setBestAlbum(new Album("Cracken", (long) 22));
-
-
-        MusicBand alestorm1 = new MusicBand();
-        alestorm1.setId(1);
-        alestorm1.setName("alestorm");
-        alestorm1.setCoordinates(new Coordinates(100, (long) 20));
-        alestorm1.setGenre(MusicGenre.BLUES);
-        alestorm1.setNumberOfParticipants(9);
-        alestorm1.setCreationDate(ZonedDateTime.now());
-        alestorm1.setBestAlbum(new Album("Cracken", (long) 22));
-
-
-        collection.add(alestorm);
-        collection.add(alestorm1);
+//        //PriorityQueue<MusicBand> collection = new PriorityQueue<>(1);
+//        //LocalDateTime inizializationTime = LocalDateTime.now();
+//
+//
+//        //Example of Music Band for test
+//        MusicBand alestorm = new MusicBand();
+//        alestorm.setId(1);
+//        alestorm.setName("alestorm");
+//        alestorm.setCoordinates(new Coordinates(100, (long) 20));
+//        alestorm.setGenre(MusicGenre.BLUES);
+//        alestorm.setNumberOfParticipants(9);
+//        alestorm.setCreationDate(ZonedDateTime.now());
+//        alestorm.setBestAlbum(new Album("Cracken", (long) 22));
+//
+//
+//        MusicBand alestorm1 = new MusicBand();
+//        alestorm1.setId(1);
+//        alestorm1.setName("alestorm");
+//        alestorm1.setCoordinates(new Coordinates(100, (long) 20));
+//        alestorm1.setGenre(MusicGenre.BLUES);
+//        alestorm1.setNumberOfParticipants(9);
+//        alestorm1.setCreationDate(ZonedDateTime.now());
+//        alestorm1.setBestAlbum(new Album("Cracken", (long) 22));
+//
+//
+//        collection.add(alestorm);
+//        collection.add(alestorm1);
 
 
         Scanner sc = new Scanner(System.in);
@@ -60,20 +60,10 @@ public class Main {
 
 
         if (dataPath == null) {
-            System.out.println("ERROR\nSet environment variable with path to you data file(.xml)");
+            System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
             isWorking = false;
             System.out.println("Exit...");
         } else {
-            //TODO REMOVE
-            System.out.println("Saving test data...");
-            try {
-                FileManager.saveToXml(musicBandsData, dataPath);
-            } catch (JAXBException e) {
-                e.printStackTrace();
-                System.out.println("Error while saving");
-            }
-
-
             System.out.println("Getting data from file " + dataPath + " ...");
             try {
                 musicBandsData = FileManager.readFromXML(dataPath);
@@ -102,6 +92,7 @@ public class Main {
                     showInfo(musicBandsData);
                     break;
                 case "show":
+                    show(musicBandsData.getQueue());
                     //TODO show
                     break;
                 case "add {element}":
@@ -171,30 +162,57 @@ public class Main {
                 "remove_greater {element} : удалить из коллекции все элементы, превышающие заданный\n" +
                 "sum_of_number_of_participants : вывести сумму значений поля numberOfParticipants для всех элементов коллекции\n" +
                 "filter_by_number_of_participants numberOfParticipants : вывести элементы, значение поля numberOfParticipants которых равно заданному\n" +
-                "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
+                "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку" +
+                "Формат ввода команд:\n" +
+                "\n" +
+                "Все аргументы команды, являющиеся стандартными типами данных (примитивные типы, классы-оболочки, String, классы для хранения дат), должны вводиться в той же строке, что и имя команды.\n" +
+                "Все составные типы данных (объекты классов, хранящиеся в коллекции) должны вводиться по одному полю в строку.\n" +
+                "При вводе составных типов данных пользователю должно показываться приглашение к вводу, содержащее имя поля (например, \"Введите дату рождения:\")\n" +
+                "Если поле является enum'ом, то вводится имя одной из его констант (при этом список констант должен быть предварительно выведен).\n" +
+                "При некорректном пользовательском вводе (введена строка, не являющаяся именем константы в enum'е; введена строка вместо числа; введённое число не входит в указанные границы и т.п.) должно быть показано сообщение об ошибке и предложено повторить ввод поля.\n" +
+                "Для ввода значений null использовать пустую строку.\n" +
+                "Поля с комментарием \"Значение этого поля должно генерироваться автоматически\" не должны вводиться пользователем вручную при добавлении.");
     }
 
     /**
      * Show info about queue
+     *
      * @param data
      */
     static void showInfo(MusicBandsData data) {
         System.out.println("Тип: PriorityQueue\n" +
                         "Дата инициализации: " + data.getInizializationTime() + '\n' +
                         "Количество элементов: " + data.getQueue().size() + '\n'
-                //TODO some more info
+
         );
     }
 
     /**
      * Method to show info about every element of queue
+     *
      * @param queue
      */
     static void show(PriorityQueue<MusicBand> queue) {
         System.out.println("Queue elements: ");
-        for (MusicBand band : queue) {
-            System.out.println(band.toString() + "\n\n");
 
+        for (MusicBand band : queue) {
+
+            System.out.println(band.toString());
+
+        }
+    }
+
+    static void saveToFile(MusicBandsData musicBandsData, String dataPath) {
+        if (dataPath == null) {
+            System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
+        } else {
+            try {
+                FileManager.saveToXml(musicBandsData, dataPath);
+                System.out.println("Data saved to file: " + dataPath);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+                System.out.println("Error while saving");
+            }
         }
     }
 }

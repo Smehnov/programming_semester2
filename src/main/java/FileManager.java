@@ -10,8 +10,9 @@ import javax.xml.bind.Unmarshaller;
 public class FileManager {
     /**
      * Method that save your collection in xml file with path ...
+     *
      * @param collection - collection to save
-     * @param filePath - path to file
+     * @param filePath   - path to file
      * @throws JAXBException
      */
     public static void saveToXml(MusicBandsData collection, String filePath) throws JAXBException {
@@ -38,43 +39,28 @@ public class FileManager {
 
     /**
      * Method for reading and spreading data from xml file
+     *
      * @param filePath - path for xml file
      * @return MusicBandData
      * @throws JAXBException
      */
     public static MusicBandsData readFromXML(String filePath) throws JAXBException {
-        //TODO change to fileread after fixing date problem
-        String xmldata = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<musicBandsData>\n" +
-                "    <band>\n" +
-                "        <coordinates>\n" +
-                "            <x>100</x>\n" +
-                "            <y>20</y>\n" +
-                "        </coordinates>\n" +
-                "        <bestAlbum>\n" +
-                "            <name>Cracken</name>\n" +
-                "            <length>22</length>\n" +
-                "        </bestAlbum>\n" +
-                "        <genre>BLUES</genre>\n" +
-                "        <id>1</id>\n" +
-                "        <name>alestorm</name>\n" +
-                "        <numberOfParticipants>9</numberOfParticipants>\n" +
-                "    </band>\n" +
-                "    <band>\n" +
-                "        <coordinates>\n" +
-                "            <x>100</x>\n" +
-                "            <y>20</y>\n" +
-                "        </coordinates>\n" +
-                "        <bestAlbum>\n" +
-                "            <name>Cracken</name>\n" +
-                "            <length>22</length>\n" +
-                "        </bestAlbum>\n" +
-                "        <genre>BLUES</genre>\n" +
-                "        <id>1</id>\n" +
-                "        <name>alestorm</name>\n" +
-                "        <numberOfParticipants>9</numberOfParticipants>\n" +
-                "    </band>\n" +
-                "</musicBandsData>\n";
+
+        String xmldata = "";
+        File file = new File(filePath);
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            while (bis.available() > 0) {
+                xmldata += (char) bis.read();
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error while reading file");
+        }
+
 
         StringReader reader = new StringReader(xmldata);
 

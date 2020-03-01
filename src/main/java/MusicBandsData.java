@@ -2,9 +2,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.PriorityQueue;
-
 
 
 @XmlType(name = "musicbanddata")
@@ -13,11 +15,16 @@ import java.util.PriorityQueue;
  * Class-wrapper for collection of music bands
  */
 public class MusicBandsData {
-    @XmlElement(name = "inizializationTime")
-    /** Field for inizialization time*/
+
+    /**
+     * Field for inizialization time
+     */
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private LocalDateTime inizializationTime;
 
-    /**Field for main collection*/
+    /**
+     * Field for main collection
+     */
     private PriorityQueue<MusicBand> queue;
 
     /**
@@ -30,14 +37,18 @@ public class MusicBandsData {
 
     /**
      * Setter for time of Inizialization (straight cheating)
-     * @param time
+     *
+     * @param inizializationTime
      */
-    public void setInitializationTime(LocalDateTime time) {
-        this.inizializationTime = time;
+
+    public void setInitializationTime(LocalDateTime inizializationTime) {
+        this.inizializationTime = inizializationTime;
     }
+
 
     /**
      * Setter for PriorityQueue - main collection of MusicBandsData
+     *
      * @param queue - PriorityQueue
      */
     public void setQueue(PriorityQueue<MusicBand> queue) {
@@ -53,11 +64,15 @@ public class MusicBandsData {
         return queue;
     }
 
+
     /**
      * Getter for time of inizialization
+     *
      * @return this.inizializationTime
      */
     public LocalDateTime getInizializationTime() {
         return this.inizializationTime;
     }
 }
+
+

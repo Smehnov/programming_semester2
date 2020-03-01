@@ -1,9 +1,10 @@
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.ZonedDateTime;
 
-/** Класс для музыкальной банды. */
+/** Music band class */
 @XmlType(name = "MusicBand")
 @XmlRootElement
 public class MusicBand implements Comparable<MusicBand> {
@@ -17,7 +18,7 @@ public class MusicBand implements Comparable<MusicBand> {
     @XmlElement(name = "coordinates")
     private Coordinates coordinates; //Поле не может быть null
     /** Field for auto-generated value of creation date*/
-    @XmlElement(name = "creationDate")
+    @XmlJavaTypeAdapter(value = ZonedDateTimeAdapter.class)
     private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     /** Field for number of Participants of Music Band*/
     private long numberOfParticipants; //Значение поля должно быть больше 0
