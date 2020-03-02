@@ -175,7 +175,7 @@ public class Main {
 
     static void addElement(MusicBandsData data) {
         MusicBand musicBand = inputtingMusingBand();
-        data.getQueue().add(musicBand);
+        data.addMusicBand(musicBand);
         System.out.println("New element was added");
     }
 

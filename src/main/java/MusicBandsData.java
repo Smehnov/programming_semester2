@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 
@@ -72,6 +73,24 @@ public class MusicBandsData {
      */
     public LocalDateTime getInizializationTime() {
         return this.inizializationTime;
+    }
+
+    public long getGreatestId(){
+        Object[] bands = this.getQueue().toArray();
+        long greatestId = 0;
+        for (int i = 0; i < bands.length; i++) {
+            MusicBand band = (MusicBand)bands[i];
+            if (band.getId()> greatestId){
+                greatestId = band.getId();
+            }
+
+        }
+        return greatestId;
+    }
+
+    public void addMusicBand(MusicBand musicBand){
+        musicBand.setId(this.getGreatestId()+1);
+        this.queue.add(musicBand);
     }
 }
 
