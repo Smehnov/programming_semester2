@@ -75,12 +75,10 @@ public class MusicBandsData {
         return this.inizializationTime;
     }
 
-    public long getGreatestId(){
-        Object[] bands = this.getQueue().toArray();
+    public long getGreatestId() {
         long greatestId = 0;
-        for (int i = 0; i < bands.length; i++) {
-            MusicBand band = (MusicBand)bands[i];
-            if (band.getId()> greatestId){
+        for (MusicBand band : queue) {
+            if (band.getId() > greatestId) {
                 greatestId = band.getId();
             }
 
@@ -88,9 +86,40 @@ public class MusicBandsData {
         return greatestId;
     }
 
-    public void addMusicBand(MusicBand musicBand){
-        musicBand.setId(this.getGreatestId()+1);
+    public void addMusicBand(MusicBand musicBand) {
+        musicBand.setId(this.getGreatestId() + 1);
         this.queue.add(musicBand);
+    }
+
+    public MusicBand getElementById(long id) {
+        for (MusicBand band : queue) {
+            if (band.getId() == id) {
+                return band;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Long> getListOfIds(){
+        ArrayList<Long> ids = new ArrayList<>();
+        for (MusicBand band:
+             queue) {
+            ids.add(band.getId());
+        }
+        return ids;
+    }
+
+    public void updateMusicBand(long id, MusicBand musicBand) {
+        MusicBand updatingBand = new MusicBand();
+        for (MusicBand band :
+                queue) {
+            if (band.getId() == id) {
+                updatingBand = band;
+            }
+        }
+        queue.remove(updatingBand);
+        musicBand.setId(id);
+        queue.add(musicBand);
     }
 }
 

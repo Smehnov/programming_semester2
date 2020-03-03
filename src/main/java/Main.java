@@ -1,5 +1,7 @@
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.bind.JAXBException;
 
 public class Main {
@@ -23,35 +25,6 @@ public class Main {
 
         //TODO file reading input
         MusicBandsData musicBandsData = new MusicBandsData();
-        PriorityQueue<MusicBand> collection = musicBandsData.getQueue();
-//        //PriorityQueue<MusicBand> collection = new PriorityQueue<>(1);
-//        //LocalDateTime inizializationTime = LocalDateTime.now();
-//
-//
-//        //Example of Music Band for test
-//        MusicBand alestorm = new MusicBand();
-//        alestorm.setId(1);
-//        alestorm.setName("alestorm");
-//        alestorm.setCoordinates(new Coordinates(100, (long) 20));
-//        alestorm.setGenre(MusicGenre.BLUES);
-//        alestorm.setNumberOfParticipants(9);
-//        alestorm.setCreationDate(ZonedDateTime.now());
-//        alestorm.setBestAlbum(new Album("Cracken", (long) 22));
-//
-//
-//        MusicBand alestorm1 = new MusicBand();
-//        alestorm1.setId(1);
-//        alestorm1.setName("alestorm");
-//        alestorm1.setCoordinates(new Coordinates(100, (long) 20));
-//        alestorm1.setGenre(MusicGenre.BLUES);
-//        alestorm1.setNumberOfParticipants(9);
-//        alestorm1.setCreationDate(ZonedDateTime.now());
-//        alestorm1.setBestAlbum(new Album("Cracken", (long) 22));
-//
-//
-//        collection.add(alestorm);
-//        collection.add(alestorm1);
-
 
         Scanner sc = new Scanner(System.in);
         boolean isWorking = true;
@@ -77,12 +50,11 @@ public class Main {
 
         while (isWorking) {
             System.out.println("Choose your action:");
-            String action = sc.next();
+            String action = sc.nextLine().replace("\n", "");
 
             //TODO regex for custom values( id / {element})
             switch (action) {
                 case "help":
-                    //TODO help
                     showHelp();
                     break;
                 case "info":
@@ -135,7 +107,27 @@ public class Main {
                     //TODO filter_contains_name name
                     break;
                 default:
-                    System.out.println("Command is wrong");
+                    if (Pattern.matches("update \\d+", action)) {
+                        Long id = Long.parseLong(action.split(" ")[1]);
+                        if (musicBandsData.getListOfIds().contains(id)) {
+                            System.out.println("Updating element with id " + id + "...");
+                            MusicBand musicBand = inputtingMusingBand();
+                            musicBandsData.updateMusicBand(id, musicBand);
+                            MusicBand newMusicBand = musicBandsData.getElementById(id);
+                            if (newMusicBand != null) {
+                                System.out.println("Element with id " + id + " was updated\n new element: \n" + newMusicBand);
+
+                            } else {
+                                System.out.println("Error while updating element");
+                            }
+                        } else {
+                            System.out.println("Element with id " + id + " doesn't exist");
+                        }
+
+                    } else {
+                        System.out.println("Command is wrong\n");
+                    }
+
                     break;
             }
 
@@ -149,9 +141,9 @@ public class Main {
         System.out.println("help : вывести справку по доступным командам\n" +
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
-                "add {element} : добавить новый элемент в коллекцию\n" +
-                "update id {element} : обновить значение элемента коллекции, id которого равен заданному\n" +
-                "remove_by_id id : удалить элемент из коллекции по его id\n" +
+                "add : добавить новый элемент в коллекцию\n" +
+                "update <id> : обновить значение элемента коллекции, id которого равен заданному\n" +
+                "remove_by_id <id> : удалить элемент из коллекции по его id\n" +
                 "clear : очистить коллекцию\n" +
                 "save : сохранить коллекцию в файл\n" +
                 "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
@@ -171,6 +163,10 @@ public class Main {
                 "При некорректном пользовательском вводе (введена строка, не являющаяся именем константы в enum'е; введена строка вместо числа; введённое число не входит в указанные границы и т.п.) должно быть показано сообщение об ошибке и предложено повторить ввод поля.\n" +
                 "Для ввода значений null использовать пустую строку.\n" +
                 "Поля с комментарием \"Значение этого поля должно генерироваться автоматически\" не должны вводиться пользователем вручную при добавлении.");
+    }
+
+    static void updateElement(MusicBandsData musicBandsData, int id) {
+        //musicBandsData.updateElementById(id, musicBand);
     }
 
     static void addElement(MusicBandsData data) {
@@ -238,9 +234,9 @@ public class Main {
         Long coordY = sc.nextLong();
 
         System.out.println("Enter number of participants");
-        long numberOfParticipants = 0;
+        Integer numberOfParticipants = 0;
         while (numberOfParticipants <= 0) {
-            numberOfParticipants = sc.nextLong();
+            numberOfParticipants = sc.nextInt();
             if (numberOfParticipants <= 0) {
                 System.out.println("Number of participants must be greater then 0");
             }
@@ -262,7 +258,7 @@ public class Main {
             if (!genresList.contains(genreS) && !genreS.equals("")) {
                 System.out.println("Enter genre from the list(" + String.join(", ", possibleGenresStrings) + ") or leave it empty for null");
             } else {
-                if(genresList.contains(genreS)){
+                if (genresList.contains(genreS)) {
                     genre = MusicGenre.valueOf(genreS);
                 }
                 correctInput = true;
@@ -290,5 +286,22 @@ public class Main {
         musicBand.setGenre(genre);
         musicBand.setBestAlbum(bestAlbum);
         return musicBand;
+    }
+
+    /**
+     * Read String from user input or read from file
+     *
+     * @param readingFromFile true if it's needed to read from file
+     */
+    static String readCommand(boolean readingFromFile) {
+        String line = "";
+        if (readingFromFile) {
+
+        } else {
+            Scanner sc = new Scanner(System.in);
+            line = sc.nextLine();
+        }
+
+        return line;
     }
 }

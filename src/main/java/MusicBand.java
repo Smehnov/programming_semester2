@@ -39,7 +39,7 @@ public class MusicBand implements Comparable<MusicBand> {
     /**
      * Field for number of Participants of Music Band
      */
-    private long numberOfParticipants; //Значение поля должно быть больше 0
+    private Integer numberOfParticipants; //Значение поля должно быть больше 0
     /**
      * Field for Music Genre of group. Could be null
      */
@@ -103,7 +103,7 @@ public class MusicBand implements Comparable<MusicBand> {
      *
      * @param numberOfParticipants - number of music band
      */
-    public void setNumberOfParticipants(long numberOfParticipants) {
+    public void setNumberOfParticipants(Integer numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
     }
 
@@ -150,7 +150,7 @@ public class MusicBand implements Comparable<MusicBand> {
      *
      * @return numberOfParticipants
      */
-    public long getNumberOfParticipants() {
+    public Integer getNumberOfParticipants() {
         return numberOfParticipants;
     }
 
@@ -177,13 +177,14 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     @Override
     public String toString() {
-        String info = "• id: " + this.id + '\n' +
-                "• Name: " + this.name + '\n' +
-                "• Coordinates: " + this.coordinates + '\n' +
-                "• Creation Date: " + this.creationDate + '\n' +
-                "• Number of Participants: " + this.numberOfParticipants + '\n' +
-                "• Genre: " + this.genre + '\n' +
-                "• Best Album: " + this.bestAlbum + '\n';
+        String info = "Music band: \n" +
+                "   • id: " + this.id + '\n' +
+                "   • Name: " + this.name + '\n' +
+                "   • Coordinates: " + this.coordinates + '\n' +
+                "   • Creation Date: " + this.creationDate + '\n' +
+                "   • Number of Participants: " + this.numberOfParticipants + '\n' +
+                "   • Genre: " + this.genre + '\n' +
+                "   • Best Album: " + this.bestAlbum + '\n';
         return info;
     }
 
@@ -192,7 +193,7 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     @Override
     public int compareTo(MusicBand B2) {
-        return this.getName().compareTo(B2.getName());
+        return this.getNumberOfParticipants().compareTo(B2.getNumberOfParticipants());
     }
 
 
