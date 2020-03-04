@@ -1,11 +1,8 @@
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -100,10 +97,10 @@ public class MusicBandsData {
         return null;
     }
 
-    public ArrayList<Long> getListOfIds(){
+    public ArrayList<Long> getListOfIds() {
         ArrayList<Long> ids = new ArrayList<>();
-        for (MusicBand band:
-             queue) {
+        for (MusicBand band :
+                queue) {
             ids.add(band.getId());
         }
         return ids;
@@ -121,6 +118,8 @@ public class MusicBandsData {
         musicBand.setId(id);
         queue.add(musicBand);
     }
+
+
 }
 
 

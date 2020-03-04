@@ -5,20 +5,20 @@ import javax.xml.bind.annotation.XmlType;
 /**class for (x,y) Coordinates*/
 public class Coordinates {
     @XmlElement(name = "x")
-    private Integer x; //Поле не может быть null
+    private Double x; //Поле не может быть null
     @XmlElement(name = "y")
-    private Long y; //Поле не может быть null
+    private float y; //Поле не может быть null
 
 /**Generator for default (0,0) coords.
  */
     public Coordinates() {
-        this(0, (long)0);
+        this(0d, 0f);
     }
     /**Generator
      * @param x
      * @param y
      */
-    public Coordinates(Integer x, Long y) {
+    public Coordinates(Double x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -28,7 +28,7 @@ public class Coordinates {
      *
      * @return this.x
      */
-    public Integer getX() {
+    public Double getX() {
         return this.x;
     }
 
@@ -36,7 +36,7 @@ public class Coordinates {
      *
      * @return this.y
      */
-    public Long getY() {
+    public Float getY() {
         return this.y;
     }
 

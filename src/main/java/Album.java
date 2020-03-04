@@ -12,13 +12,17 @@ public class Album {
     @XmlElement(name = "length")
     private Long length; //Поле может быть null, Значение поля должно быть больше 0
 
-    /**Constructor for unnamed album*/
-    public Album(){
-        this("Unnamed", (long)1);
+    /**
+     * Constructor for unnamed album
+     */
+    public Album() {
+        this("Unnamed", (long) 1);
     }
 
-    /**Constructor
-     * @param name - name of album
+    /**
+     * Constructor
+     *
+     * @param name   - name of album
      * @param length - number of songs in album
      */
     public Album(String name, Long length) {
@@ -26,7 +30,9 @@ public class Album {
         this.length = length;
     }
 
-    /**Getter for name
+    /**
+     * Getter for name
+     *
      * @return this.name
      */
     public String getName() {
@@ -36,6 +42,7 @@ public class Album {
 
     /**
      * Getter for length
+     *
      * @return this.length
      */
     public Long getLength() {
@@ -43,8 +50,8 @@ public class Album {
     }
 
     @Override
-    public String toString(){
-        return this.name;
+    public String toString() {
+        return this.name + "(length " + this.length + ")";
     }
 
 }

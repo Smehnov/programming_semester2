@@ -1,4 +1,3 @@
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -85,7 +84,7 @@ public class MusicBand implements Comparable<MusicBand> {
         this.coordinates = coordinates;
     }
 
-    public void setCoordinates(Integer coordX, Long coordY) {
+    public void setCoordinates(Double coordX, Float coordY) {
         this.coordinates = new Coordinates(coordX, coordY);
     }
 
