@@ -50,6 +50,9 @@ public class Main {
         AddIfMinCommand addIfMinCommand = new AddIfMinCommand();
         AddIfMaxCommand addIfMaxCommand = new AddIfMaxCommand();
         RemoveGreaterCommand removeGreaterCommand = new RemoveGreaterCommand();
+        SumOfNumberOfParticipantsCommand sumOfNumberOfParticipantsCommand = new SumOfNumberOfParticipantsCommand();
+        FilterByNumberOfParticipantsCommand filterByNumberOfParticipantsCommand = new FilterByNumberOfParticipantsCommand();
+        FilterContainsNameCommand filterContainsNameCommand = new FilterContainsNameCommand();
 
         while (true) {
             System.out.println("Enter you action, use >help to get the list of all commands");
