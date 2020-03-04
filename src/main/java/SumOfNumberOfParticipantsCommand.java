@@ -1,3 +1,7 @@
+/**
+ * Class for 'sum_of_number_of_participants' command
+ * @implements Command
+ */
 public class SumOfNumberOfParticipantsCommand implements Command {
     public SumOfNumberOfParticipantsCommand() {
         CommandExecutor.addCommand("sum_of_number_of_participants", this);

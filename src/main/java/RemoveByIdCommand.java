@@ -1,3 +1,7 @@
+/**
+ * Class for 'remove_by_id' command
+ * @implements Command
+ */
 public class RemoveByIdCommand implements Command {
     public RemoveByIdCommand() {
         CommandExecutor.addCommand("remove_by_id", this);

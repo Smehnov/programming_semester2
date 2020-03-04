@@ -1,3 +1,7 @@
+/**
+ * Class for 'remove_greater' command
+ * @implements Command
+ */
 public class RemoveGreaterCommand implements Command {
     public RemoveGreaterCommand() {
         CommandExecutor.addCommand("remove_greater", this);

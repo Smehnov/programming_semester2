@@ -1,3 +1,7 @@
+/**
+ * Class for 'show' command
+ * @implements Command
+ */
 public class ShowCommand implements Command {
     public ShowCommand() {
         CommandExecutor.addCommand("show", this);

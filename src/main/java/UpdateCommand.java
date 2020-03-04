@@ -1,3 +1,7 @@
+/**
+ * Class for 'update' command
+ * @implements Command
+ */
 public class UpdateCommand implements Command {
     public UpdateCommand() {
         CommandExecutor.addCommand("update", this);
