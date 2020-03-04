@@ -84,14 +84,14 @@ public class EnterElementData {
             MusicGenre possibleGenre = possibleGenres[i];
             possibleGenresStrings[i] = possibleGenre.name();
         }
-        System.out.println("Enter music genre(" + String.join(", ", possibleGenresStrings) + ") or leave it empty for null");
+        System.out.println("Enter music genre(" + String.join(", ", possibleGenresStrings) + ")");
         boolean correctInput = false;
         while (!correctInput) {
             List<String> genresList = Arrays.asList(possibleGenresStrings);
 
             String genreS = Inputting.readLine();
-            if (!genresList.contains(genreS) && !genreS.equals("")) {
-                System.out.println("Enter genre from the list(" + String.join(", ", possibleGenresStrings) + ") or leave it empty for null");
+            if (!genresList.contains(genreS)) {
+                System.out.println("Enter genre from the list(" + String.join(", ", possibleGenresStrings) + ")");
             } else {
                 if (genresList.contains(genreS)) {
                     genre = MusicGenre.valueOf(genreS);

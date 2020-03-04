@@ -11,7 +11,7 @@ public class Inputting {
     }
 
     //TODO CHECKING
-    private void parseScript(String scriptPath) throws FileNotFoundException, IOException {
+    public static void parseScript(String scriptPath) throws IOException {
         String data = "";
         File file = new File(scriptPath);
 
@@ -37,10 +37,19 @@ public class Inputting {
     public static String readLine() {
         if (fromFile) {
             String command = scriptCommands.poll();
-            if (scriptCommands.isEmpty()){
+            if (scriptCommands.isEmpty()) {
                 fromFile = false;
             }
-            System.out.println(">"+command);
+
+            System.out.print(">");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("Problem with sleepping");
+                ;
+            }
+
+            System.out.println(command);
             return command;
 
         } else {

@@ -44,6 +44,12 @@ public class Main {
         SaveCommand saveCommand = new SaveCommand();
         AddCommand addCommand = new AddCommand();
         UpdateCommand updateCommand = new UpdateCommand();
+        RemoveByIdCommand removeByIdCommand = new RemoveByIdCommand();
+        ClearCommand clearCommand = new ClearCommand();
+        ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
+        AddIfMinCommand addIfMinCommand = new AddIfMinCommand();
+        AddIfMaxCommand addIfMaxCommand = new AddIfMaxCommand();
+        RemoveGreaterCommand removeGreaterCommand = new RemoveGreaterCommand();
 
         while (true) {
             System.out.println("Enter you action, use >help to get the list of all commands");

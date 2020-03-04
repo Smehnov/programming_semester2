@@ -192,7 +192,7 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     @Override
     public int compareTo(MusicBand B2) {
-        return this.getNumberOfParticipants().compareTo(B2.getNumberOfParticipants());
+        return this.getName().compareTo(B2.getName());
     }
 
 

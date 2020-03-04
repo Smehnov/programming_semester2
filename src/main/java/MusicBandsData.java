@@ -106,6 +106,20 @@ public class MusicBandsData {
         return ids;
     }
 
+    public void removeMusicBandById(Long id) {
+        for (MusicBand band :
+                queue) {
+            if (band.getId() == id) {
+                queue.remove(band);
+                return;
+            }
+        }
+    }
+
+    public void clearCollection() {
+        queue.clear();
+    }
+
     public void updateMusicBand(long id, MusicBand musicBand) {
         MusicBand updatingBand = new MusicBand();
         for (MusicBand band :
@@ -117,6 +131,50 @@ public class MusicBandsData {
         queue.remove(updatingBand);
         musicBand.setId(id);
         queue.add(musicBand);
+    }
+
+    public long getQueueSize() {
+        return queue.size();
+    }
+
+    public MusicBand getMinMusicBand() {
+        return queue.peek();
+    }
+
+    public MusicBand getMaxMusicBand() {
+        MusicBand maxMusicBand = this.getMinMusicBand();
+        for (MusicBand band :
+                queue) {
+            if (maxMusicBand.compareTo(band) > 0) {
+                maxMusicBand = band;
+            }
+        }
+        return maxMusicBand;
+
+    }
+
+    public void removeIfGreater(MusicBand musicBand) {
+        ArrayList<MusicBand> bandsToBeRemoved = new ArrayList<>();
+        for (MusicBand band :
+                queue) {
+            if (band.compareTo(musicBand) > 0) {
+
+                bandsToBeRemoved.add(band);
+            }
+        }
+        for (MusicBand band :
+                bandsToBeRemoved) {
+            queue.remove(band);
+        }
+    }
+
+    public long getSumOfNumberOfParticipants() {
+        long sum = 0;
+        for (MusicBand band :
+                queue) {
+            sum += band.getNumberOfParticipants();
+        }
+        return sum;
     }
 
 
