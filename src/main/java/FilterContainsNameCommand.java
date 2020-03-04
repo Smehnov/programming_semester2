@@ -1,3 +1,7 @@
+/**
+ * Class for 'filter_contains_name' command
+ * @implements Command
+ */
 public class FilterContainsNameCommand implements Command {
     public FilterContainsNameCommand() {
         CommandExecutor.addCommand("filter_contains_name", this);

@@ -2,6 +2,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class for enter element
+ */
 public class EnterElementData {
     static MusicBand createMusicBand() {
         Scanner sc = new Scanner(System.in);

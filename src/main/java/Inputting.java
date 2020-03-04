@@ -2,6 +2,9 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Inputting file
+ */
 public class Inputting {
     private static boolean fromFile = false;
     private static LinkedList<String> scriptCommands = new LinkedList<>();

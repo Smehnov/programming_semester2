@@ -48,38 +48,19 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     private Album bestAlbum; //Поле может быть null
 
-    /**
-     * Getter for creation date
-     *
-     * @return this.creationDate
-     */
     public ZonedDateTime getDate() {
         return this.creationDate;
     }
 
-    /**
-     * Setter for ID
-     *
-     * @param id - unique ID of music band.
-     */
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * Setter for name
-     *
-     * @param name - name of music band
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Setter for coordinates
-     *
-     * @param coordinates
-     */
+
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
@@ -88,29 +69,16 @@ public class MusicBand implements Comparable<MusicBand> {
         this.coordinates = new Coordinates(coordX, coordY);
     }
 
-    /**
-     * Setter for creation date
-     *
-     * @param creationDate
-     */
+
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    /**
-     * Setter for number of participants
-     *
-     * @param numberOfParticipants - number of music band
-     */
+
     public void setNumberOfParticipants(Integer numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
     }
 
-    /**
-     * Setter for genre of music bands
-     *
-     * @param genre - genre of music band
-     */
     public void setGenre(MusicGenre genre) {
         this.genre = genre;
     }
@@ -124,21 +92,13 @@ public class MusicBand implements Comparable<MusicBand> {
         this.bestAlbum = bestAlbum;
     }
 
-    /**
-     * Getter for unique ID of music band
-     *
-     * @return id
-     */
+
     @XmlElement(name = "id")
     public long getId() {
         return id;
     }
 
-    /**
-     * Getter for name of music band
-     *
-     * @return name
-     */
+
     @XmlElement(name = "name")
     public String getName() {
         return name;
@@ -153,20 +113,10 @@ public class MusicBand implements Comparable<MusicBand> {
         return numberOfParticipants;
     }
 
-    /**
-     * Getter for genre of music bands
-     *
-     * @return genre
-     */
     public MusicGenre getGenre() {
         return genre;
     }
 
-    /**
-     * Getter for the best album of music bands
-     *
-     * @return bestAlbum
-     */
     public Album getBestAlbum() {
         return bestAlbum;
     }

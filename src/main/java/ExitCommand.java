@@ -1,3 +1,7 @@
+/**
+ * Class for command 'exit'
+ * @implements Command
+ */
 public class ExitCommand implements Command {
     public ExitCommand() {
         CommandExecutor.addCommand("exit", this);

@@ -1,3 +1,7 @@
+/**
+ * Class for 'info' command
+ * @implements Command
+ */
 public class InfoCommand implements Command {
     public InfoCommand() {
         CommandExecutor.addCommand("info", this);

@@ -30,21 +30,12 @@ public class Album {
         this.length = length;
     }
 
-    /**
-     * Getter for name
-     *
-     * @return this.name
-     */
     public String getName() {
         System.out.println(name);
         return name;
     }
 
-    /**
-     * Getter for length
-     *
-     * @return this.length
-     */
+
     public Long getLength() {
         return length;
     }
