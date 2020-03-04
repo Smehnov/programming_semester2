@@ -1,5 +1,5 @@
 public class ClearCommand implements Command {
-    public ClearCommand(){
+    public ClearCommand() {
         CommandExecutor.addCommand("clear", this);
     }
 

@@ -1,7 +1,7 @@
 import javax.xml.bind.JAXBException;
 
 public class SaveCommand implements Command {
-    public SaveCommand(){
+    public SaveCommand() {
         CommandExecutor.addCommand("save", this);
     }
 

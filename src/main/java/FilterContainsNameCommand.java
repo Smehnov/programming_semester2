@@ -7,13 +7,13 @@ public class FilterContainsNameCommand implements Command {
     public void execute(String arg, MusicBandsData data) {
         if (arg != null) {
             System.out.println("Bands that contain " + arg + " in name:");
-            for (MusicBand band:
-                 data.getQueue()) {
-                if(band.getName().contains(arg)){
+            for (MusicBand band :
+                    data.getQueue()) {
+                if (band.getName().contains(arg)) {
                     System.out.println(band);
                 }
             }
-        }else{
+        } else {
             System.out.println("Wrong input format");
         }
     }

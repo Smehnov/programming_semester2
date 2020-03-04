@@ -8,9 +8,7 @@ public class ShowCommand implements Command {
         System.out.println("Queue elements: ");
 
         for (MusicBand band : data.getQueue()) {
-
             System.out.println(band.toString());
-
         }
     }
 }

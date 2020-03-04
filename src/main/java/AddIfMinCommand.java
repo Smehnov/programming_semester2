@@ -6,11 +6,14 @@ public class AddIfMinCommand implements Command {
     @Override
     public void execute(String arg, MusicBandsData data) {
         if (data.getQueueSize() > 0) {
-            System.out.println("Entering music band fields...");
+
             MusicBand minMusicBand = data.getMinMusicBand();
             System.out.println("Min element:");
             System.out.println(minMusicBand);
+
+            System.out.println("Entering music band fields...");
             MusicBand musicBand = EnterElementData.createMusicBand();
+
             if (musicBand.compareTo(minMusicBand) < 0) {
                 data.addMusicBand(musicBand);
                 System.out.println("New element added:");

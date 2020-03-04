@@ -1,5 +1,5 @@
 public class ExitCommand implements Command {
-    public ExitCommand(){
+    public ExitCommand() {
         CommandExecutor.addCommand("exit", this);
     }
 

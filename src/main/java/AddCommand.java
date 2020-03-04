@@ -1,10 +1,9 @@
 public class AddCommand implements Command {
-    public AddCommand(){
+    public AddCommand() {
         CommandExecutor.addCommand("add", this);
     }
 
-    public void execute(String args, MusicBandsData data){
-        //TODO вызов создание одной группы
+    public void execute(String args, MusicBandsData data) {
         MusicBand musicBand = EnterElementData.createMusicBand();
 
         data.addMusicBand(musicBand);

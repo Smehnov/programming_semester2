@@ -8,8 +8,9 @@ public class UpdateCommand implements Command {
     public void execute(String arg, MusicBandsData data) {
 
         try {
-            Long id = Long.parseLong(arg);
+            long id = Long.parseLong(arg);
             MusicBand musicBand = EnterElementData.createMusicBand();
+
             if (data.getListOfIds().contains(id)) {
                 data.updateMusicBand(id, musicBand);
                 MusicBand newMusicBand = data.getElementById(id);

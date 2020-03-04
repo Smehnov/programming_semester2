@@ -6,9 +6,11 @@ public class RemoveGreaterCommand implements Command {
     @Override
     public void execute(String arg, MusicBandsData data) {
         long oldSize = data.getListOfIds().size();
+
         System.out.println("Enter element data");
         MusicBand musicBand = EnterElementData.createMusicBand();
         data.removeIfGreater(musicBand);
+
         long newSize = data.getListOfIds().size();
         System.out.println((oldSize - newSize) + " elements greater then " + musicBand + "\nwere removed");
     }

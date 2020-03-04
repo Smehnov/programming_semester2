@@ -7,7 +7,7 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void execute(String arg, MusicBandsData data) {
-        if (Inputting.isFromFile()){
+        if (Inputting.isFromFile()) {
             System.out.println("You can't call execute_script command while executing script.");
             return;
         }
