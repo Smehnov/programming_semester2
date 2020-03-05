@@ -1,7 +1,3 @@
-/**
- * Class for 'help' command
- * @implements Command
- */
 public class HelpCommand implements Command {
 
     public HelpCommand() {

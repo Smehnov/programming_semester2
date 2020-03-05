@@ -33,24 +33,41 @@ public class MusicBandsData {
         inizializationTime = LocalDateTime.now();
     }
 
-
+    /**
+     * Setter for time of Inizialization (straight cheating)
+     *
+     * @param inizializationTime
+     */
 
     public void setInitializationTime(LocalDateTime inizializationTime) {
         this.inizializationTime = inizializationTime;
     }
 
 
+    /**
+     * Setter for PriorityQueue - main collection of MusicBandsData
+     *
+     * @param queue - PriorityQueue
+     */
     public void setQueue(PriorityQueue<MusicBand> queue) {
         this.queue = queue;
     }
 
     @XmlElement(name = "band", nillable = true)
-
+    /**
+     * Getter for PriorityQueue - main collection of MusicBandsData
+     * @return this.queue
+     */
     public PriorityQueue<MusicBand> getQueue() {
         return queue;
     }
 
 
+    /**
+     * Getter for time of inizialization
+     *
+     * @return this.inizializationTime
+     */
     public LocalDateTime getInizializationTime() {
         return this.inizializationTime;
     }

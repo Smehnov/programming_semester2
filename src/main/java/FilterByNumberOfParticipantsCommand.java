@@ -1,7 +1,3 @@
-/**
- * Class for command 'filter_by_number_of_participants'
- * @implements Command
- */
 public class FilterByNumberOfParticipantsCommand implements Command {
     public FilterByNumberOfParticipantsCommand() {
         CommandExecutor.addCommand("filter_by_number_of_participants", this);

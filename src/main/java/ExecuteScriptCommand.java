@@ -1,9 +1,5 @@
 import java.io.IOException;
 
-/**
- * Class for command 'executing script'
- * @implements Command
- */
 public class ExecuteScriptCommand implements Command {
     public ExecuteScriptCommand() {
         CommandExecutor.addCommand("execute_script", this);
