@@ -15,7 +15,9 @@ public class CommandExecutor {
 
     public static void execute(String action, MusicBandsData musicBandsData) {
         String[] actionParts = action.split(" ");
-
+        if (action.isEmpty()) {
+            return;
+        }
         if (actionParts.length == 1) {
             Command command = commands.get(actionParts[0]);
             if (command != null) {

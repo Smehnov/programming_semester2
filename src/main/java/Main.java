@@ -57,8 +57,10 @@ public class Main {
         while (true) {
             System.out.println("Enter you action, use >help to get the list of all commands");
             String action = Inputting.readLine();
-            CommandExecutor.execute(action, musicBandsData);
-            System.out.println();
+            if (!action.isEmpty()) {
+                CommandExecutor.execute(action, musicBandsData);
+                System.out.println();
+            }
         }
     }
 

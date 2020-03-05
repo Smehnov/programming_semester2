@@ -11,12 +11,14 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void execute(String arg, MusicBandsData data) {
-        if (Inputting.isFromFile()) {
-            System.out.println("You can't call execute_script command while executing script.");
-            return;
-        }
+
+
         if (arg != null) {
             try {
+                if (Inputting.runningScriptNames.contains(arg)) {
+                    System.out.println("This script has been already called. Avoid endless recursion.");
+                    return;
+                }
                 Inputting.parseScript(arg);
                 System.out.println("Reading commands form file " + arg);
             } catch (IOException e) {
