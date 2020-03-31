@@ -1,9 +1,11 @@
+package band_data;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class EnterElementData {
-    static MusicBand createMusicBand() {
+    public static MusicBand createMusicBand() {
         Scanner sc = new Scanner(System.in);
         MusicBand musicBand = new MusicBand();
         String name = enterName();
@@ -21,7 +23,7 @@ public class EnterElementData {
         return musicBand;
     }
 
-    static String enterName() {
+    public static String enterName() {
         System.out.println("Enter name");
         String name = "";
         while (name.equals("")) {
@@ -33,7 +35,7 @@ public class EnterElementData {
         return name;
     }
 
-    static Coordinates enterCoordinates() {
+    public static Coordinates enterCoordinates() {
         Double coordX = null;
         Float coordY = null;
         while (coordX == null) {
@@ -55,7 +57,7 @@ public class EnterElementData {
         return new Coordinates(coordX, coordY);
     }
 
-    static Integer enterNumberOfParticipants() {
+    public static Integer enterNumberOfParticipants() {
         System.out.println("Enter number of participants");
         Integer numberOfParticipants = 0;
         while (numberOfParticipants <= 0) {
@@ -76,7 +78,7 @@ public class EnterElementData {
         return numberOfParticipants;
     }
 
-    static MusicGenre enterMusicGenre() {
+    public static MusicGenre enterMusicGenre() {
         MusicGenre genre = null;
         MusicGenre[] possibleGenres = MusicGenre.values();
         String[] possibleGenresStrings = new String[possibleGenres.length];
@@ -102,7 +104,7 @@ public class EnterElementData {
         return genre;
     }
 
-    static Album enterBestAlbum() {
+    public static Album enterBestAlbum() {
         Album bestAlbum = null;
         System.out.println("Enter the name of the best album(or leave it empty for a null value");
         String albumNameInput = Inputting.readLine().trim();
@@ -113,7 +115,7 @@ public class EnterElementData {
                 try {
                     albumLength = Long.parseLong(Inputting.readLine());
                     if (albumLength <= 0) {
-                        System.out.println("Album length must be greater then 0");
+                        System.out.println("band_data.Album length must be greater then 0");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Wrong number format");

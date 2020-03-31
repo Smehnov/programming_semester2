@@ -1,3 +1,5 @@
+package band_data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -179,11 +181,11 @@ public class MusicBand implements Comparable<MusicBand> {
         String info = "Music band: \n" +
                 "   • id: " + this.id + '\n' +
                 "   • Name: " + this.name + '\n' +
-                "   • Coordinates: " + this.coordinates + '\n' +
+                "   • band_data.Coordinates: " + this.coordinates + '\n' +
                 "   • Creation Date: " + this.creationDate + '\n' +
                 "   • Number of Participants: " + this.numberOfParticipants + '\n' +
                 "   • Genre: " + this.genre + '\n' +
-                "   • Best Album: " + this.bestAlbum + '\n';
+                "   • Best band_data.Album: " + this.bestAlbum + '\n';
         return info;
     }
 

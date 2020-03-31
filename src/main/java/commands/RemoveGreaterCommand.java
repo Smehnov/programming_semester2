@@ -1,3 +1,9 @@
+package commands;
+
+import band_data.EnterElementData;
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class RemoveGreaterCommand implements Command {
     public RemoveGreaterCommand() {
         CommandExecutor.addCommand("remove_greater", this);

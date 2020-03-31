@@ -1,3 +1,8 @@
+package commands;
+
+import band_data.Inputting;
+import band_data.MusicBandsData;
+
 import java.io.IOException;
 
 public class ExecuteScriptCommand implements Command {

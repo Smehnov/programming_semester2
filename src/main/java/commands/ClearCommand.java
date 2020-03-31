@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 public class ClearCommand implements Command {
     public ClearCommand() {
         CommandExecutor.addCommand("clear", this);

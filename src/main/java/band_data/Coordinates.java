@@ -1,8 +1,10 @@
+package band_data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * class for (x,y) Coordinates
+ * class for (x,y) band_data.Coordinates
  */
 @XmlType(name = "coordinates")
 public class Coordinates {

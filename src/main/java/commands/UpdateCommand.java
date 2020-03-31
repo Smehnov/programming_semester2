@@ -1,3 +1,9 @@
+package commands;
+
+import band_data.EnterElementData;
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class UpdateCommand implements Command {
     public UpdateCommand() {
         CommandExecutor.addCommand("update", this);

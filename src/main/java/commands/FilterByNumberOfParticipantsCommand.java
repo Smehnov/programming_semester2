@@ -1,3 +1,8 @@
+package commands;
+
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class FilterByNumberOfParticipantsCommand implements Command {
     public FilterByNumberOfParticipantsCommand() {
         CommandExecutor.addCommand("filter_by_number_of_participants", this);

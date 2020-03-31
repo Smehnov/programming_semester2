@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 public class HelpCommand implements Command {
 
     public HelpCommand() {

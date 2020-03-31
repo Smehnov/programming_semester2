@@ -1,3 +1,8 @@
+package commands;
+
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class ShowCommand implements Command {
     public ShowCommand() {
         CommandExecutor.addCommand("show", this);

@@ -1,3 +1,8 @@
+package commands;
+
+import band_data.FileManager;
+import band_data.MusicBandsData;
+
 import javax.xml.bind.JAXBException;
 
 public class SaveCommand implements Command {

@@ -1,3 +1,8 @@
+import band_data.FileManager;
+import band_data.Inputting;
+import band_data.MusicBandsData;
+import commands.*;
+
 import javax.xml.bind.JAXBException;
 
 public class Main {
@@ -15,7 +20,7 @@ public class Main {
         MusicBandsData musicBandsData = new MusicBandsData();
 
         //Scanner sc = new Scanner(System.in);
-        boolean isWorking = true;
+
 
 
         if (dataPath == null) {
@@ -29,6 +34,7 @@ public class Main {
                 System.out.println("Got data");
 
             } catch (JAXBException e) {
+                e.printStackTrace();
                 System.out.println("error while reading data from XML");
                 System.out.println("Exit...");
                 System.exit(0);

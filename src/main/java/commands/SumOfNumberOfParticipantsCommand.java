@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 public class SumOfNumberOfParticipantsCommand implements Command {
     public SumOfNumberOfParticipantsCommand() {
         CommandExecutor.addCommand("sum_of_number_of_participants", this);

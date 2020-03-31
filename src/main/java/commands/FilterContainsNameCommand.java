@@ -1,3 +1,8 @@
+package commands;
+
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class FilterContainsNameCommand implements Command {
     public FilterContainsNameCommand() {
         CommandExecutor.addCommand("filter_contains_name", this);

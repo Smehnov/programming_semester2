@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 public class ExitCommand implements Command {
     public ExitCommand() {
         CommandExecutor.addCommand("exit", this);

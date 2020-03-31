@@ -1,3 +1,9 @@
+package commands;
+
+import band_data.EnterElementData;
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+
 public class AddIfMinCommand implements Command {
     public AddIfMinCommand() {
         CommandExecutor.addCommand("add_if_min", this);

@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +27,7 @@ public class CommandExecutor {
             if (command != null) {
                 command.execute(null, musicBandsData);
             } else {
-                System.out.println("Command doesn't exist. Enter >help for getting more info");
+                System.out.println("commands.Command doesn't exist. Enter >help for getting more info");
             }
         } else if (actionParts.length == 2) {
             Command command = commands.get(actionParts[0]);
@@ -31,7 +35,7 @@ public class CommandExecutor {
             if (command != null) {
                 command.execute(arg, musicBandsData);
             } else {
-                System.out.println("Command doesn't exist. Enter >help for getting more info");
+                System.out.println("commands.Command doesn't exist. Enter >help for getting more info");
             }
         } else {
             System.out.println("Wrong command input. Enter >help for getting more info");

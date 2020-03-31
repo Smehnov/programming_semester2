@@ -1,3 +1,5 @@
+package band_data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -26,7 +28,7 @@ public class MusicBandsData {
     private PriorityQueue<MusicBand> queue;
 
     /**
-     * Generator for empty MusicBandsData
+     * Generator for empty band_data.MusicBandsData
      */
     public MusicBandsData() {
         queue = new PriorityQueue<>();
@@ -45,7 +47,7 @@ public class MusicBandsData {
 
 
     /**
-     * Setter for PriorityQueue - main collection of MusicBandsData
+     * Setter for PriorityQueue - main collection of band_data.MusicBandsData
      *
      * @param queue - PriorityQueue
      */
@@ -53,9 +55,9 @@ public class MusicBandsData {
         this.queue = queue;
     }
 
-    @XmlElement(name = "band", nillable = true)
+    @XmlElement(name = "band_data", nillable = true)
     /**
-     * Getter for PriorityQueue - main collection of MusicBandsData
+     * Getter for PriorityQueue - main collection of band_data.MusicBandsData
      * @return this.queue
      */
     public PriorityQueue<MusicBand> getQueue() {

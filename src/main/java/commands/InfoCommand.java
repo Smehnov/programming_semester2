@@ -1,3 +1,7 @@
+package commands;
+
+import band_data.MusicBandsData;
+
 public class InfoCommand implements Command {
     public InfoCommand() {
         CommandExecutor.addCommand("info", this);
