@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 
+
 @XmlType(name = "musicbanddata")
 @XmlRootElement
 /**
@@ -61,7 +62,7 @@ public class MusicBandsData {
      * @return this.queue
      */
     public PriorityQueue<MusicBand> getQueue() {
-        return queue;
+        return this.queue;
     }
 
 
@@ -139,11 +140,11 @@ public class MusicBandsData {
         return queue.size();
     }
 
-    public MusicBand getMinMusicBand() {
+    /*public MusicBand getMinMusicBand() {
         return queue.peek();
     }
 
-    public MusicBand getMaxMusicBand() {
+      public MusicBand getMaxMusicBand() {
         MusicBand maxMusicBand = this.getMinMusicBand();
         for (MusicBand band :
                 queue) {
@@ -154,8 +155,8 @@ public class MusicBandsData {
         return maxMusicBand;
 
     }
-
-    public void removeIfGreater(MusicBand musicBand) {
+    */
+    public void removefGreater(MusicBand musicBand) {
         ArrayList<MusicBand> bandsToBeRemoved = new ArrayList<>();
         for (MusicBand band :
                 queue) {

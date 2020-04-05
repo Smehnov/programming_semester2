@@ -15,6 +15,7 @@ public class Main {
         //export LAB_DATA_PATH="data.xml"
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
+
         //Comparator for music bands via creation date
 
         MusicBandsData musicBandsData = new MusicBandsData();

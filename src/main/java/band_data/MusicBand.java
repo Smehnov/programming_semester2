@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 @XmlRootElement
 public class MusicBand implements Comparable<MusicBand> {
 
+
     public MusicBand() {
         this.id = 0;
         this.creationDate = ZonedDateTime.now();

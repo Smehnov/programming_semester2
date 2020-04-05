@@ -13,7 +13,8 @@ public class AddIfMaxCommand implements Command {
     public void execute(String arg, MusicBandsData data) {
 
         if (data.getQueueSize() > 0) {
-            MusicBand maxMusicBand = data.getMaxMusicBand();
+            //MusicBand maxMusicBand = data.getMaxMusicBand();
+            MusicBand maxMusicBand = data.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
             System.out.println("Max element:");
             System.out.println(maxMusicBand);
 
@@ -25,7 +26,7 @@ public class AddIfMaxCommand implements Command {
                 System.out.println("New element added:");
                 System.out.println(musicBand);
             } else {
-                System.out.println("New element isn't greater then min element");
+                System.out.println("New element isn't greater than max element");
             }
         } else {
             System.out.println("Collection is empty, use >add command instead");

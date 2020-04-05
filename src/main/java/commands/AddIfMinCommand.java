@@ -13,7 +13,7 @@ public class AddIfMinCommand implements Command {
     public void execute(String arg, MusicBandsData data) {
         if (data.getQueueSize() > 0) {
 
-            MusicBand minMusicBand = data.getMinMusicBand();
+            MusicBand minMusicBand = data.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
             System.out.println("Min element:");
             System.out.println(minMusicBand);
 
