@@ -1,5 +1,6 @@
 package commands;
 
+import band_data.MusicBand;
 import band_data.MusicBandsData;
 import commands.Command;
 import commands.CommandExecutor;
@@ -18,10 +19,10 @@ public class RemoveByIdCommand implements Command {
         try {
             Long id = Long.parseLong(arg);
             if (data.getListOfIds().contains(id)) {
-                data.getQueue().stream().peek(o ->{
-                    if (o.getId() == id)
-                        data.getQueue().remove(o);
-                    });
+                data.remove( data.getQueue().stream()
+                        .filter(o ->o.getId()==id)
+                        .findFirst()
+                        .get());
                 //data.removeMusicBandById(id);
                 System.out.println("Band with id " + id + " was removed");
             } else {

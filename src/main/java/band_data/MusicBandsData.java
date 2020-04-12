@@ -109,7 +109,7 @@ public class MusicBandsData {
         return ids;
     }
 
-    public void removeMusicBandById(Long id) {
+/*    public void removeMusicBandById(Long id) {
         for (MusicBand band :
                 queue) {
             if (band.getId() == id) {
@@ -117,8 +117,8 @@ public class MusicBandsData {
                 return;
             }
         }
-    }
-
+   }
+*/
     public void clearCollection() {
         queue.clear();
     }
@@ -156,7 +156,7 @@ public class MusicBandsData {
 
     }
     */
-    public void removefGreater(MusicBand musicBand) {
+/*    public void removefGreater(MusicBand musicBand) {
         ArrayList<MusicBand> bandsToBeRemoved = new ArrayList<>();
         for (MusicBand band :
                 queue) {
@@ -179,8 +179,11 @@ public class MusicBandsData {
         }
         return sum;
     }
+*/
 
-
+    public void remove(MusicBand band) {
+        queue.remove(band);
+    }
 }
 
 

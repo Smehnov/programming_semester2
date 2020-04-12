@@ -17,10 +17,10 @@ public class RemoveGreaterCommand implements Command {
 
         System.out.println("Enter element data");
         MusicBand musicBand = EnterElementData.createMusicBand();
-        data.getQueue().stream().peek(o ->{
-            if(musicBand.compareTo(o)>0)
-                data.getQueue().remove(o);
-        }) ;
+        data.remove(data.getQueue().stream()
+                .filter(o ->musicBand.compareTo(o)>0)
+                .findFirst()
+                .get());
         //data.removeIfGreater(musicBand);
 
         long newSize = data.getListOfIds().size();

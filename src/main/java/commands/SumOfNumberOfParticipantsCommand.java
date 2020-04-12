@@ -9,6 +9,8 @@ public class SumOfNumberOfParticipantsCommand implements Command {
 
     @Override
     public void execute(String arg, MusicBandsData data) {
-        System.out.println("Total participants in all bands: " + data.getSumOfNumberOfParticipants());
+        System.out.println("Total participants in all bands: " + data.getQueue().stream()
+                .mapToInt(o -> o.getNumberOfParticipants()).sum());
+       // System.out.println("Total participants in all bands: " + data.getSumOfNumberOfParticipants());
     }
 }

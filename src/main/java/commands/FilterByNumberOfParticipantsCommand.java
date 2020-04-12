@@ -13,12 +13,15 @@ public class FilterByNumberOfParticipantsCommand implements Command {
         try {
             Integer numberOfParticipants = Integer.parseInt(arg);
             System.out.println("Elements with number of participants equals " + numberOfParticipants + " :");
-            for (MusicBand band :
-                    data.getQueue()) {
-                if (band.getNumberOfParticipants() == numberOfParticipants) {
-                    System.out.println(band);
-                }
-            }
+            data.getQueue().stream()
+                    .filter(o -> o.getNumberOfParticipants()== numberOfParticipants)
+                    .forEach(o -> System.out.println(o));
+//            for (MusicBand band :
+//                    data.getQueue()) {
+//                if (band.getNumberOfParticipants() == numberOfParticipants) {
+//                    System.out.println(band);
+//                }
+//            }
         } catch (NumberFormatException e) {
             System.out.println("Wrong number format");
         }
