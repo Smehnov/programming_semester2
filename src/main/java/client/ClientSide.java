@@ -10,25 +10,25 @@ import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
 
 public class ClientSide {
-    DatagramChannel client;
-    InetSocketAddress serverAddress;
-    ClientSide(int serverPort, String serverIp) throws IOException {
-        serverAddress = new InetSocketAddress(serverIp, serverPort);
-        client = DatagramChannel.open();
-        client.bind(null);
-    }
-    ClientSide() throws IOException{
-        this(666, "localhost");
+    public static String sendMessage(String msg) throws IOException {
+        return sendMessage(msg, "localhost", 666);
     }
 
-    String sendMessage(String msg) throws IOException{
+    public static String sendMessage(String msg, String address, int port) throws IOException {
+        //TODO CHECK SERVER
+        InetSocketAddress serverAddress;
+        serverAddress = new InetSocketAddress(address, port);
+        DatagramChannel client = DatagramChannel.open();
+        client.bind(null);
+
         ByteBuffer buffer = ByteBuffer.wrap(msg.getBytes());
         client.send(buffer, serverAddress);
-        buffer.clear();
+        buffer = ByteBuffer.wrap(new byte[4096]);
         client.receive(buffer);
         String recieved = new String(buffer.array(), StandardCharsets.UTF_8);
 
         buffer.flip();
+        client.close();
         return recieved;
     }
 
@@ -36,9 +36,8 @@ public class ClientSide {
 
         try {
             for (int i = 0; i < 100; i++) {
-                ClientSide client = new ClientSide();
-                String recieved = client.sendMessage("Number "+i);
-                System.out.println("Got: "+recieved);
+                String recieved = ClientSide.sendMessage("" + i);
+                System.out.println("Got: " + recieved);
             }
 
 

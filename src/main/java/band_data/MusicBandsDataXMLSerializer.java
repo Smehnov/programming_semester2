@@ -9,7 +9,7 @@ import javax.xml.bind.Unmarshaller;
 /**
  * Class reading/writing xml files
  */
-public class FileManager {
+public class MusicBandsDataXMLSerializer {
     /**
      * Method that save your collection in xml file with path ...
      *
@@ -39,6 +39,25 @@ public class FileManager {
         }
     }
 
+    public static String serializeMusicBand(MusicBand band) throws JAXBException {
+
+
+        StringWriter sWriter = new StringWriter();
+        BufferedWriter writer = new BufferedWriter(sWriter);
+
+        JAXBContext context = JAXBContext.newInstance(MusicBand.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(band, writer);
+
+
+        String result = sWriter.toString();
+        //System.out.println(result);
+        return result;
+    }
+
+
+
     /**
      * Method for reading and spreading data from xml file
      *
@@ -63,6 +82,17 @@ public class FileManager {
             System.out.println("Error while reading file");
         }
 
+
+        StringReader reader = new StringReader(xmldata);
+
+        JAXBContext context = JAXBContext.newInstance(MusicBandsData.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        MusicBandsData data = (MusicBandsData) unmarshaller.unmarshal(reader);
+        return data;
+    }
+
+    public static MusicBandsData readFromXMLString(String xmldata) throws JAXBException {
 
         StringReader reader = new StringReader(xmldata);
 

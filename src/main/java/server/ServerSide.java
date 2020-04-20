@@ -15,7 +15,7 @@ public class ServerSide {
         serverSocket = new DatagramSocket(port);
     }
 
-    ServerSide() throws IOException{
+    ServerSide() throws IOException {
         this(666);
     }
 
@@ -24,22 +24,25 @@ public class ServerSide {
         try {
 
             while (running) {
-                buf = new byte[2048];
+                buf = new byte[4096];
                 DatagramPacket packet
                         = new DatagramPacket(buf, buf.length);
+
+
                 serverSocket.receive(packet);
-                InetAddress address = packet.getAddress();
-                int port = packet.getPort();
-                packet = new DatagramPacket(buf, buf.length, address, port);
+
                 String received = new String(packet.getData(), 0, packet.getLength());
-
                 System.out.println("Received " + received);
-
-
                 if (received.equals("end")) {
                     running = false;
                     continue;
                 }
+
+
+                InetAddress address = packet.getAddress();
+                int port = packet.getPort();
+                byte[] answerBuf = ("You are "+received).getBytes();
+                packet = new DatagramPacket(answerBuf, answerBuf.length, address, port);
 
 
                 serverSocket.send(packet);
@@ -51,7 +54,7 @@ public class ServerSide {
         }
     }
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         ServerSide serverSide = new ServerSide();
         serverSide.run();
     }

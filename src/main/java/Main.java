@@ -1,4 +1,4 @@
-import band_data.FileManager;
+import band_data.MusicBandsDataXMLSerializer;
 import band_data.Inputting;
 import band_data.MusicBandsData;
 import commands.*;
@@ -31,7 +31,7 @@ public class Main {
         } else {
             System.out.println("Getting data from file " + dataPath + " ...");
             try {
-                musicBandsData = FileManager.readFromXML(dataPath);
+                musicBandsData = MusicBandsDataXMLSerializer.readFromXML(dataPath);
                 System.out.println("Got data");
 
             } catch (JAXBException e) {

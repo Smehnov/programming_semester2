@@ -1,6 +1,6 @@
 package commands;
 
-import band_data.FileManager;
+import band_data.MusicBandsDataXMLSerializer;
 import band_data.MusicBandsData;
 
 import javax.xml.bind.JAXBException;
@@ -20,7 +20,7 @@ public class SaveCommand implements Command {
             System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
         } else {
             try {
-                FileManager.saveToXml(data, dataPath);
+                MusicBandsDataXMLSerializer.saveToXml(data, dataPath);
                 System.out.println("Data saved to file: " + dataPath);
             } catch (JAXBException e) {
                 e.printStackTrace();
