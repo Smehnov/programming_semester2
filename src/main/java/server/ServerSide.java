@@ -18,13 +18,24 @@ public class ServerSide {
     ServerSide() throws IOException {
         this(666);
     }
+    String processCommand(ServerCommand serverCommand){
+        switch (serverCommand.getType()){
+            case "add":
 
+
+                return "adding band....";
+
+        }
+
+
+        return "UNKNOWN TYPE OF COMMAND";
+    }
     void run() {
         boolean running = true;
         try {
 
             while (running) {
-                buf = new byte[4096];
+                buf = new byte[65536];
                 DatagramPacket packet
                         = new DatagramPacket(buf, buf.length);
 
@@ -38,10 +49,17 @@ public class ServerSide {
                     continue;
                 }
 
+                String answer = "";
+                try {
+                    ServerCommand serverCommand = ServerCommand.deserializeFromString(received);
+                    answer = processCommand(serverCommand);
+                }catch (ClassNotFoundException e){
+                    //WRONG COMMAND
+                }
 
                 InetAddress address = packet.getAddress();
                 int port = packet.getPort();
-                byte[] answerBuf = ("You are "+received).getBytes();
+                byte[] answerBuf = answer.getBytes();
                 packet = new DatagramPacket(answerBuf, answerBuf.length, address, port);
 
 

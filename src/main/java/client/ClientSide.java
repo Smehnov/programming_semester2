@@ -23,7 +23,7 @@ public class ClientSide {
 
         ByteBuffer buffer = ByteBuffer.wrap(msg.getBytes());
         client.send(buffer, serverAddress);
-        buffer = ByteBuffer.wrap(new byte[4096]);
+        buffer = ByteBuffer.wrap(new byte[65536]);
         client.receive(buffer);
         String recieved = new String(buffer.array(), StandardCharsets.UTF_8);
 

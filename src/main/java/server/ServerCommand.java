@@ -1,12 +1,15 @@
 package server;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import java.io.*;
 import java.util.Arrays;
 
 public class ServerCommand implements Serializable {
     private String type;
     private String[] params;
-    public ServerCommand(String type, String[] params){
+
+    public ServerCommand(String type, String[] params) {
         this.type = type;
         this.params = params;
     }
@@ -26,14 +29,26 @@ public class ServerCommand implements Serializable {
     public void setParams(String[] params) {
         this.params = params;
     }
-    public String serializeToString() throws IOException{
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-        objectOutputStream.writeObject(this);
-        String result = outputStream.toString();
-        return result;
+    public String serializeToString() throws IOException {
+
+
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        ObjectOutputStream so = new ObjectOutputStream(bo);
+        so.writeObject(this);
+        so.flush();
+        return Base64.encode(bo.toByteArray());
     }
+
+    public static ServerCommand deserializeFromString(String serialized) throws IOException, ClassNotFoundException {
+        byte b[] = Base64.decode(serialized);
+        ByteArrayInputStream bi = new ByteArrayInputStream(b);
+        ObjectInputStream si = new ObjectInputStream(bi);
+        return (ServerCommand) si.readObject();
+
+    }
+
+
     @Override
     public String toString() {
         return "ServerCommand{" +
