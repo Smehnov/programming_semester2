@@ -23,16 +23,12 @@ public class AddCommand implements Command {
             commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
             ServerCommand serverCommand = new ServerCommand("add", commandParams);
             String message = serverCommand.serializeToString();
-            System.out.println("1");
 
             serverCommand = ServerCommand.deserializeFromString(message);
-            System.out.println(serverCommand);
+
             String recieved = ClientSide.sendMessage(message);
             System.out.println(recieved);
 
-
-            //data.addMusicBand(musicBand);
-            //System.out.println("New element was added:\n" + musicBand.toString());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Can't connect to server, try to enter command again");

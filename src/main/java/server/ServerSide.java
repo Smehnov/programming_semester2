@@ -1,5 +1,10 @@
 package server;
 
+import band_data.MusicBand;
+import band_data.MusicBandsData;
+import band_data.MusicBandsDataXMLSerializer;
+
+import javax.xml.bind.JAXBException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ServerSide {
-
+    final String nameOfEnvVar = "LAB_DATA_PATH";
+    MusicBandsData musicBandsData;
     DatagramSocket serverSocket;
     byte[] buf;
     BufferedReader bufferedReader;
@@ -21,6 +27,32 @@ public class ServerSide {
         serverSocket.setSoTimeout(1000);
 
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        readMusicBand();
+
+    }
+
+    void readMusicBand(){
+        musicBandsData = new MusicBandsData();
+        String dataPath = System.getenv(nameOfEnvVar);
+
+        if (dataPath == null) {
+            System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
+            System.out.println("Exit...");
+            System.exit(0);
+        } else {
+            System.out.println("Getting data from file " + dataPath + " ...");
+            try {
+                musicBandsData = MusicBandsDataXMLSerializer.readFromXML(dataPath);
+                System.out.println("Got data");
+
+            } catch (JAXBException e) {
+                e.printStackTrace();
+                System.out.println("error while reading data from XML");
+                System.out.println("Exit...");
+                System.exit(0);
+            }
+
+        }
     }
 
     ServerSide() throws IOException {
@@ -30,10 +62,15 @@ public class ServerSide {
     String processCommand(ServerCommand serverCommand) {
         switch (serverCommand.getType()) {
             case "add":
+                try {
+                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
+                    musicBandsData.addMusicBand(musicBand);
+                    String msg = "New element was added:\n" + musicBand.toString();
 
-
-                return "adding band....";
-
+                    return msg;
+                }catch (JAXBException e){
+                    return "Error while extracting music band data on server...";
+                }
         }
 
 
@@ -103,7 +140,7 @@ public class ServerSide {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void runServerSide() throws IOException {
         ServerSide serverSide = new ServerSide();
         serverSide.run();
     }

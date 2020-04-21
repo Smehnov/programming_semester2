@@ -2,8 +2,11 @@ import band_data.MusicBandsDataXMLSerializer;
 import band_data.Inputting;
 import band_data.MusicBandsData;
 import commands.*;
+import server.ServerSide;
 
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
     /**
@@ -13,6 +16,24 @@ public class Main {
      */
     public static void main(String[] args) {
         //export LAB_DATA_PATH="data.xml"
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Choose mode:\nclient\nserver\n>");
+        String mode = sc.nextLine().trim();
+        if (mode.toLowerCase().equals("server")){
+            try {
+                ServerSide.runServerSide();
+            }catch (IOException e){
+                System.out.println("Can't start server, check all params");
+                System.exit(0);
+            }
+        }else if (mode.toLowerCase().equals("client")){
+
+        }else{
+            System.out.println("Not known mode, exit...");
+            System.exit(0);
+        }
+
+
         final String nameOfEnvVar = "LAB_DATA_PATH";
         String dataPath = System.getenv(nameOfEnvVar);
 
@@ -24,24 +45,7 @@ public class Main {
 
 
 
-        if (dataPath == null) {
-            System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
-            System.out.println("Exit...");
-            System.exit(0);
-        } else {
-            System.out.println("Getting data from file " + dataPath + " ...");
-            try {
-                musicBandsData = MusicBandsDataXMLSerializer.readFromXML(dataPath);
-                System.out.println("Got data");
 
-            } catch (JAXBException e) {
-                e.printStackTrace();
-                System.out.println("error while reading data from XML");
-                System.out.println("Exit...");
-                System.exit(0);
-            }
-
-        }
 
 
         HelpCommand helpCommand = new HelpCommand();

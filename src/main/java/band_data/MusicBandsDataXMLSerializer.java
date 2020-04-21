@@ -92,14 +92,14 @@ public class MusicBandsDataXMLSerializer {
         return data;
     }
 
-    public static MusicBandsData readFromXMLString(String xmldata) throws JAXBException {
+    public static MusicBand readMusicBandFromXMLString(String xmldata) throws JAXBException {
 
         StringReader reader = new StringReader(xmldata);
 
-        JAXBContext context = JAXBContext.newInstance(MusicBandsData.class);
+        JAXBContext context = JAXBContext.newInstance(MusicBand.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        MusicBandsData data = (MusicBandsData) unmarshaller.unmarshal(reader);
+        MusicBand data = (MusicBand) unmarshaller.unmarshal(reader);
         return data;
     }
 }
