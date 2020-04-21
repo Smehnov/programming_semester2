@@ -24,10 +24,8 @@ public class AddCommand implements Command {
             ServerCommand serverCommand = new ServerCommand("add", commandParams);
             String message = serverCommand.serializeToString();
 
-            serverCommand = ServerCommand.deserializeFromString(message);
-
-            String recieved = ClientSide.sendMessage(message);
-            System.out.println(recieved);
+            String received = ClientSide.sendMessage(message);
+            System.out.println(received);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,8 +33,6 @@ public class AddCommand implements Command {
         }catch(JAXBException e){
             e.printStackTrace();
             System.out.println("Can't serialize music band :(");
-        }catch (ClassNotFoundException e){
-
         }
 
 

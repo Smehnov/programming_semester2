@@ -31,7 +31,7 @@ public class ServerSide {
 
     }
 
-    void readMusicBand(){
+    void readMusicBand() {
         musicBandsData = new MusicBandsData();
         String dataPath = System.getenv(nameOfEnvVar);
 
@@ -68,9 +68,18 @@ public class ServerSide {
                     String msg = "New element was added:\n" + musicBand.toString();
 
                     return msg;
-                }catch (JAXBException e){
+                } catch (JAXBException e) {
                     return "Error while extracting music band data on server...";
                 }
+            case "show":
+                String msg = "";
+                msg+= "Queue elements: \n";
+
+
+                for (MusicBand band : musicBandsData.getQueue()) {
+                    msg+=band.toString() + "\n";
+                }
+                return msg;
         }
 
 
