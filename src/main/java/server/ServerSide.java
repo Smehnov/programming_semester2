@@ -24,7 +24,7 @@ public class ServerSide {
 
     ServerSide(int port) throws IOException {
         serverSocket = new DatagramSocket(port);
-        serverSocket.setSoTimeout(1000);
+        serverSocket.setSoTimeout(100);
 
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         readMusicBand();
