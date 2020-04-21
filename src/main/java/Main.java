@@ -52,7 +52,6 @@ public class Main {
         InfoCommand infoCommand = new InfoCommand();
         ExitCommand exitCommand = new ExitCommand();
         ShowCommand showCommand = new ShowCommand();
-        SaveCommand saveCommand = new SaveCommand();
         AddCommand addCommand = new AddCommand();
         UpdateCommand updateCommand = new UpdateCommand();
         RemoveByIdCommand removeByIdCommand = new RemoveByIdCommand();

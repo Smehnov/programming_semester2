@@ -93,7 +93,20 @@ public class ServerSide {
     }
 
     void saveToFile() {
+        String dataPath = System.getenv(nameOfEnvVar);
         System.out.println("Saving to file ...");
+        if (dataPath == null) {
+            System.out.println("ERROR\nYou need to set environment variable(LAB_DATA_PATH) with path to you data file(.xml)");
+        } else {
+            try {
+                MusicBandsDataXMLSerializer.saveToXml(musicBandsData, dataPath);
+                System.out.println("Data saved to file: " + dataPath);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+                System.out.println("Error while saving");
+            }
+        }
+
     }
 
     void processInput(String s) {
@@ -102,6 +115,9 @@ public class ServerSide {
                 saveToFile();
                 System.out.println("EXIT...");
                 System.exit(0);
+                break;
+            case "save":
+                saveToFile();
                 break;
         }
     }
