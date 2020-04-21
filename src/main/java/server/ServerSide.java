@@ -80,6 +80,12 @@ public class ServerSide {
                     msg+=band.toString() + "\n";
                 }
                 return msg;
+            case "info":
+
+                return("Тип: PriorityQueue\n" +
+                        "Дата инициализации: " + musicBandsData.getInizializationTime() + '\n' +
+                        "Количество элементов: " + musicBandsData.getQueue().size() + '\n'
+                );
         }
 
 

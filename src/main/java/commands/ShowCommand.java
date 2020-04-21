@@ -15,13 +15,13 @@ public class ShowCommand implements Command {
     @Override
     public void execute(String arg, MusicBandsData data) {
 
-        try{
+        try {
             ServerCommand serverCommand = new ServerCommand("show", new String[0]);
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);
             System.out.println(received);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error while sending message to server...");
         }
 
