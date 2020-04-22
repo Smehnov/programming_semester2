@@ -8,6 +8,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.GregorianCalendar;
 
 public class ClientSide {
     public static String sendMessage(String msg) throws IOException {
@@ -16,34 +17,41 @@ public class ClientSide {
 
     public static String sendMessage(String msg, String address, int port) throws IOException {
         //TODO CHECK SERVER
+
         InetSocketAddress serverAddress;
         serverAddress = new InetSocketAddress(address, port);
         DatagramChannel client = DatagramChannel.open();
+
+
         client.bind(null);
+        client.socket().setSoTimeout(5000);
 
         ByteBuffer buffer = ByteBuffer.wrap(msg.getBytes());
         client.send(buffer, serverAddress);
-        buffer = ByteBuffer.wrap(new byte[65536]);
-        client.receive(buffer);
-        String recieved = new String(buffer.array(), StandardCharsets.UTF_8);
-
-        buffer.flip();
-        client.close();
-        return recieved;
-    }
-
-    public static void main(String[] args) {
+        byte[] buf = new byte[65536];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        boolean successfullAttempt = false;
 
         try {
-            for (int i = 0; i < 100; i++) {
-                String recieved = ClientSide.sendMessage("" + i);
-                System.out.println("Got: " + recieved);
-            }
+            client.socket().receive(packet);
+            successfullAttempt = true;
 
-
-        } catch (IOException e) {
-            System.out.println("Error");
+        } catch (SocketTimeoutException e) {
+            System.out.println("Server is unavailable...");
         }
 
+
+        String received;
+        //String recieved = new String(buffer.array(), StandardCharsets.UTF_8);
+        if (successfullAttempt) {
+            received = new String(packet.getData(), 0, packet.getLength());
+        } else {
+            received = "Can't connect to server";
+        }
+        buffer.flip();
+        client.close();
+        return received;
     }
+
+
 }

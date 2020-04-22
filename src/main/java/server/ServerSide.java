@@ -74,47 +74,46 @@ public class ServerSide {
                 }
             case "show":
                 String msg = "";
-                msg+= "Queue elements: \n";
+                msg += "Queue elements: \n";
                 for (MusicBand band : musicBandsData.getQueue()) {
-                    msg+=band.toString() + "\n";
+                    msg += band.toString() + "\n";
                 }
                 return msg;
             case "info":
 
-                return("Тип: PriorityQueue\n" +
+                return ("Тип: PriorityQueue\n" +
                         "Дата инициализации: " + musicBandsData.getInizializationTime() + '\n' +
                         "Количество элементов: " + musicBandsData.getQueue().size() + '\n'
                 );
             case "help":
 
                 return (
-                        "help : вывести справку по доступным командам\n" +
                         "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
-                        "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
-                        "add : добавить новый элемент в коллекцию\n" +
-                        "update <id> : обновить значение элемента коллекции, id которого равен заданному\n" +
-                        "remove_by_id <id> : удалить элемент из коллекции по его id\n" +
-                        "clear : очистить коллекцию\n" +
-                        "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
-                        "exit : завершить работу клиента\n" +
-                        "add_if_max {element} : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции\n" +
-                        "add_if_min {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции\n" +
-                        "remove_greater {element} : удалить из коллекции все элементы, превышающие заданный\n" +
-                        "sum_of_number_of_participants : вывести сумму значений поля numberOfParticipants для всех элементов коллекции\n" +
-                        "filter_by_number_of_participants numberOfParticipants : вывести элементы, значение поля numberOfParticipants которых равно заданному\n" +
-                        "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
+                                "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
+                                "add : добавить новый элемент в коллекцию\n" +
+                                "update <id> : обновить значение элемента коллекции, id которого равен заданному\n" +
+                                "remove_by_id <id> : удалить элемент из коллекции по его id\n" +
+                                "clear : очистить коллекцию\n" +
+                                "execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
+                                "exit : завершить работу клиента\n" +
+                                "add_if_max {element} : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции\n" +
+                                "add_if_min {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции\n" +
+                                "remove_greater {element} : удалить из коллекции все элементы, превышающие заданный\n" +
+                                "sum_of_number_of_participants : вывести сумму значений поля numberOfParticipants для всех элементов коллекции\n" +
+                                "filter_by_number_of_participants numberOfParticipants : вывести элементы, значение поля numberOfParticipants которых равно заданному\n" +
+                                "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку");
             case "clear":
                 musicBandsData.getQueue().clear();
                 return ("Collection was cleared");
             case "sum_of_number_of_participants":
-                return("Total participants in all bands: " + musicBandsData.getQueue().stream()
+                return ("Total participants in all bands: " + musicBandsData.getQueue().stream()
                         .mapToInt(o -> o.getNumberOfParticipants()).sum());
             case "remove_by_id":
                 try {
                     Long id = Long.parseLong(serverCommand.getParams()[0]);
                     if (musicBandsData.getListOfIds().contains(id)) {
-                        musicBandsData.remove( musicBandsData.getQueue().stream()
-                                .filter(o ->o.getId()==id)
+                        musicBandsData.remove(musicBandsData.getQueue().stream()
+                                .filter(o -> o.getId() == id)
                                 .findFirst()
                                 .get());
                         return ("Band with id " + id + " was removed");
@@ -128,12 +127,12 @@ public class ServerSide {
                 }
             case "add_if_max":
                 if (musicBandsData.getQueueSize() > 0) {
-                    MusicBand maxMusicBand = musicBandsData.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
+                    MusicBand maxMusicBand = musicBandsData.getQueue().stream().max((p1, p2) -> p1.compareTo(p2)).get();
                     MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
 
                     if (musicBand.compareTo(maxMusicBand) > 0) {
                         musicBandsData.addMusicBand(musicBand);
-                        return ("New element added:"+musicBand);
+                        return ("New element added:" + musicBand);
                     } else {
                         return ("New element isn't greater than max element");
                     }
@@ -143,12 +142,12 @@ public class ServerSide {
             case "add_if_min":
                 if (musicBandsData.getQueueSize() > 0) {
 
-                    MusicBand minMusicBand = musicBandsData.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
+                    MusicBand minMusicBand = musicBandsData.getQueue().stream().max((p1, p2) -> p1.compareTo(p2)).get();
                     MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
 
                     if (musicBand.compareTo(minMusicBand) < 0) {
                         musicBandsData.addMusicBand(musicBand);
-                        return ("New element added:"+musicBand);
+                        return ("New element added:" + musicBand);
                     } else {
                         return ("New element isn't less then min element");
                     }
@@ -156,28 +155,35 @@ public class ServerSide {
                     return ("Collection is empty, use >add command instead");
                 }
             case "filter_by_number_of_participants":
-                try{
+                try {
                     String msg1 = "";
                     Integer numberOfParticipants = Integer.parseInt(serverCommand.getParams()[0]);
-                    msg1+= "Elements with number of participants equals " + numberOfParticipants + ":";
-                    for (Object k:  musicBandsData.getQueue().stream().filter(o-> o.getNumberOfParticipants() == numberOfParticipants).toArray()) {
-                        musicBandsData.remove((MusicBand) k);
-                        msg1+=((MusicBand)k).toString();
+                    msg1 += "Elements with number of participants equals " + numberOfParticipants + ":";
+                    for (MusicBand band :
+                            musicBandsData.getQueue()) {
+                        if (band.getNumberOfParticipants() == numberOfParticipants) {
+                            msg1 += band;
+                        }
                     }
                     return msg1;
                 } catch (NumberFormatException e) {
-                     return ("Wrong number format");
+                    return ("Wrong number format");
                 }
             case "filter_contains_name":
                 String msg1 = "";
                 String arg = serverCommand.getParams()[0];
                 if (arg != null) {
-                    msg1+="Bands that contain " + arg + " in name:";
-                    for (Object k:  musicBandsData.getQueue().stream().filter(o-> o.getName().contains(arg)).toArray()) {
-                        musicBandsData.remove((MusicBand) k);
-                        msg1+=((MusicBand)k).toString();
+                    msg1 += "Bands that contain " + arg + " in name:";
+//                    data.getQueue().stream()
+//                            .filter(o -> o.getName().contains(arg))
+//                            .forEach(o -> System.out.println(o));
+                    for (MusicBand band :
+                            musicBandsData.getQueue()) {
+                        if (band.getName().contains(arg)) {
+                            msg1 += band;
+                        }
                     }
-            return msg1;
+                    return msg1;
 
                 } else {
                     return ("Wrong input format");
@@ -186,7 +192,7 @@ public class ServerSide {
                 try {
                     long id = Long.parseLong(serverCommand.getParams()[0]);
                     MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[1]);
-                    System.out.println(id);
+
                     if (musicBandsData.getListOfIds().contains(id)) {
                         musicBandsData.updateMusicBand(id, musicBand);
                         MusicBand newMusicBand = musicBandsData.getElementById(id);
@@ -199,18 +205,20 @@ public class ServerSide {
                 }
             case "remove_greater":
                 long oldSize = musicBandsData.getListOfIds().size();
-                System.out.println("Enter element data");
-                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
-                String msg2="";
-                for (Object k:  musicBandsData.getQueue().stream().filter(o-> musicBand.compareTo(o)>0).toArray()) {
+                MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
+//                musicBandsData.remove(musicBandsData.getQueue().stream()
+//                        .filter(o ->musicBand.compareTo(o)>0)
+//                        .findFirst()
+//                        .get());
+                String msg2 = "";
+                for (Object k : musicBandsData.getQueue().stream().filter(o -> musicBand.compareTo(o) > 0).toArray()) {
                     musicBandsData.remove((MusicBand) k);
-                    msg2+=((MusicBand)k).toString();
+                    msg2 += ((MusicBand) k).toString();
                 }
                 long newSize = musicBandsData.getListOfIds().size();
                 msg2 += ((oldSize - newSize) + " elements greater than " + musicBand + "\nwere removed");
                 return msg2;
         }
-
 
 
         return "UNKNOWN TYPE OF COMMAND";
@@ -244,11 +252,15 @@ public class ServerSide {
                 saveToFile();
                 break;
         }
+        System.out.print(">");
     }
 
     void run() {
+
         boolean running = true;
         try {
+            System.out.println("Running server...");
+            System.out.print(">");
 
             while (running) {
                 buf = new byte[65536];
@@ -266,7 +278,7 @@ public class ServerSide {
                 }
 
                 String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("Received " + received);
+                //System.out.println("Received " + received);
                 if (received.equals("end")) {
                     running = false;
                     continue;
