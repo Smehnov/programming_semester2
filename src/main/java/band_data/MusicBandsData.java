@@ -120,7 +120,8 @@ public class MusicBandsData {
    }
 */
     public void clearCollection() {
-        queue.clear();
+        this.getQueue().clear();
+        System.out.println(this.getQueue().size());
     }
 
     public void updateMusicBand(long id, MusicBand musicBand) {
