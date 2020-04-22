@@ -3,6 +3,12 @@ package commands;
 import band_data.EnterElementData;
 import band_data.MusicBand;
 import band_data.MusicBandsData;
+import band_data.MusicBandsDataXMLSerializer;
+import client.ClientSide;
+import server.ServerCommand;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 
 public class UpdateCommand implements Command {
     public UpdateCommand() {
@@ -14,19 +20,17 @@ public class UpdateCommand implements Command {
     public void execute(String arg, MusicBandsData data) {
 
         try {
-            long id = Long.parseLong(arg);
             MusicBand musicBand = EnterElementData.createMusicBand();
-
-            if (data.getListOfIds().contains(id)) {
-                data.updateMusicBand(id, musicBand);
-                MusicBand newMusicBand = data.getElementById(id);
-                System.out.println("Element with id " + id + " was updated, new one:\n" + newMusicBand);
-            } else {
-                System.out.println("Band with id " + id + " doesn't exist");
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println("Wrong id number format");
+            String[] commandParams = new String[2];
+            commandParams[0] = arg;
+            commandParams[1] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
+            ServerCommand serverCommand = new ServerCommand("update", commandParams);
+            String message = serverCommand.serializeToString();
+            String received = ClientSide.sendMessage(message);
+            System.out.println(received);
+        } catch (IOException | JAXBException e) {
+            e.printStackTrace();
+            System.out.println("Can't connect to server, try to enter command again");
         }
 
 

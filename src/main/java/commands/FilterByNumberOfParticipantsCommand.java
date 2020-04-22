@@ -2,6 +2,10 @@ package commands;
 
 import band_data.MusicBand;
 import band_data.MusicBandsData;
+import client.ClientSide;
+import server.ServerCommand;
+
+import java.io.IOException;
 
 public class FilterByNumberOfParticipantsCommand implements Command {
     public FilterByNumberOfParticipantsCommand() {
@@ -10,20 +14,19 @@ public class FilterByNumberOfParticipantsCommand implements Command {
 
     @Override
     public void execute(String arg, MusicBandsData data) {
-        try {
-            Integer numberOfParticipants = Integer.parseInt(arg);
-            System.out.println("Elements with number of participants equals " + numberOfParticipants + " :");
-            data.getQueue().stream()
-                    .filter(o -> o.getNumberOfParticipants()== numberOfParticipants)
-                    .forEach(o -> System.out.println(o));
-//            for (MusicBand band :
-//                    data.getQueue()) {
-//                if (band.getNumberOfParticipants() == numberOfParticipants) {
-//                    System.out.println(band);
-//                }
-//            }
-        } catch (NumberFormatException e) {
-            System.out.println("Wrong number format");
-        }
+            try {
+                String[] commandParams = new String[1];
+                commandParams[0] = arg;
+                ServerCommand serverCommand = new ServerCommand("filter_by_number_of_participants", commandParams);
+                String message = serverCommand.serializeToString();
+
+                String received = ClientSide.sendMessage(message);
+                System.out.println(received);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Can't connect to server, try to enter command again");
+            }
     }
 }
+

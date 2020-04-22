@@ -3,7 +3,12 @@ package commands;
 import band_data.EnterElementData;
 import band_data.MusicBand;
 import band_data.MusicBandsData;
+import band_data.MusicBandsDataXMLSerializer;
+import client.ClientSide;
+import server.ServerCommand;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.Queue;
 
 public class RemoveGreaterCommand implements Command {
@@ -13,17 +18,19 @@ public class RemoveGreaterCommand implements Command {
 
     @Override
     public void execute(String arg, MusicBandsData data) {
-        long oldSize = data.getListOfIds().size();
-
-        System.out.println("Enter element data");
         MusicBand musicBand = EnterElementData.createMusicBand();
-        data.remove(data.getQueue().stream()
-                .filter(o ->musicBand.compareTo(o)>0)
-                .findFirst()
-                .get());
-        //data.removeIfGreater(musicBand);
 
-        long newSize = data.getListOfIds().size();
-        System.out.println((oldSize - newSize) + " elements greater than " + musicBand + "\nwere removed");
+        try {
+            String[] commandParams = new String[1];
+            commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
+            ServerCommand serverCommand = new ServerCommand("remove_greater", commandParams);
+            String message = serverCommand.serializeToString();
+            String received = ClientSide.sendMessage(message);
+            System.out.println(received);
+
+        } catch (IOException | JAXBException e) {
+            e.printStackTrace();
+            System.out.println("Can't connect to server, try to enter command again");
+        }
     }
 }

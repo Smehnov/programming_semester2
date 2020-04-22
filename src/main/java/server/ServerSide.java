@@ -1,5 +1,6 @@
 package server;
 
+import band_data.EnterElementData;
 import band_data.MusicBand;
 import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
@@ -59,23 +60,21 @@ public class ServerSide {
         this(666);
     }
 
-    String processCommand(ServerCommand serverCommand) {
+    String processCommand(ServerCommand serverCommand) throws JAXBException {
         switch (serverCommand.getType()) {
             case "add":
                 try {
                     MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
                     musicBandsData.addMusicBand(musicBand);
                     String msg = "New element was added:\n" + musicBand.toString();
-
                     return msg;
                 } catch (JAXBException e) {
                     return "Error while extracting music band data on server...";
+
                 }
             case "show":
                 String msg = "";
                 msg+= "Queue elements: \n";
-
-
                 for (MusicBand band : musicBandsData.getQueue()) {
                     msg+=band.toString() + "\n";
                 }
@@ -88,7 +87,8 @@ public class ServerSide {
                 );
             case "help":
 
-                return ("help : вывести справку по доступным командам\n" +
+                return ("help : вывесaagent:C:\\Users\\Alexandra\\Desktop\\прога\\IDE\\IntelliJ IDEA 2019.2.3\\lib\\idea_rt.jar=58794:C:\\Users\\Alexandra\\Desktop\\прога\\IDE\\IntelliJ IDEA 2019.2.3\\bin\" -Dfile.encoding=UTF-8 -classpath \"C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\charsets.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\deploy.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\access-bridge-64.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\cldrdata.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\dnsns.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\jaccess.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\jfxrt.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\localedata.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\nashorn.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\sunec.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\sunjce_provider.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\sunmscapi.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\sunpkcs11.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\ext\\zipfs.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\javaws.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\jce.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\jfr.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\jfxswt.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\jsse.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\management-agent.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\plugin.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\resources.jar;C:\\Program Files\\Java\\jdk1.8.0_241\\jre\\lib\\rt.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\target\\classes;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.jms.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.annotation.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.ejb.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.persistence.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.transaction.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.servlet.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.resource.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.servlet.jsp.jar;C:\\Users\\Alexandra\\Desktop\\прога\\lab5\\lib\\javax.servlet.jsp.jstl.jar\" Main\n" +
+                        "Choose mode:ти справку по доступным командам\n" +
                         "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                         "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
                         "add : добавить новый элемент в коллекцию\n" +
@@ -110,7 +110,122 @@ public class ServerSide {
             case "sum_of_number_of_participants":
                 return("Total participants in all bands: " + musicBandsData.getQueue().stream()
                         .mapToInt(o -> o.getNumberOfParticipants()).sum());
+            case "remove_by_id":
+                try {
+                    Long id = Long.parseLong(serverCommand.getParams()[0]);
+                    if (musicBandsData.getListOfIds().contains(id)) {
+                        musicBandsData.remove( musicBandsData.getQueue().stream()
+                                .filter(o ->o.getId()==id)
+                                .findFirst()
+                                .get());
+                        return ("Band with id " + id + " was removed");
+                    } else {
+                        return ("Band with id " + id + " not found");
+                    }
 
+
+                } catch (NumberFormatException e) {
+                    return ("Id's number format error, check >help");
+                }
+            case "add_if_max":
+                if (musicBandsData.getQueueSize() > 0) {
+                    MusicBand maxMusicBand = musicBandsData.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
+                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
+
+                    if (musicBand.compareTo(maxMusicBand) > 0) {
+                        musicBandsData.addMusicBand(musicBand);
+                        return ("New element added:"+musicBand);
+                    } else {
+                        return ("New element isn't greater than max element");
+                    }
+                } else {
+                    return ("Collection is empty, use >add command instead");
+                }
+            case "add_if_min":
+                if (musicBandsData.getQueueSize() > 0) {
+
+                    MusicBand minMusicBand = musicBandsData.getQueue().stream().max((p1,p2) -> p1.compareTo(p2)).get();
+                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
+
+                    if (musicBand.compareTo(minMusicBand) < 0) {
+                        musicBandsData.addMusicBand(musicBand);
+                        return ("New element added:"+musicBand);
+                    } else {
+                        return ("New element isn't less then min element");
+                    }
+                } else {
+                    return ("Collection is empty, use >add command instead");
+                }
+            case "filter_by_number_of_participants":
+                try{
+                    String msg1 = "";
+                    Integer numberOfParticipants = Integer.parseInt(serverCommand.getParams()[0]);
+                    msg1+= "Elements with number of participants equals " + numberOfParticipants + ":";
+                    for (MusicBand band :
+                    musicBandsData.getQueue()) {
+                         if (band.getNumberOfParticipants() == numberOfParticipants) {
+                            msg1+=band;
+                         }
+                    }
+                    return msg1;
+                } catch (NumberFormatException e) {
+                     return ("Wrong number format");
+                }
+            case "filter_contains_name":
+                String msg1 = "";
+                String arg = serverCommand.getParams()[0];
+                if (arg != null) {
+                    msg1+="Bands that contain " + arg + " in name:";
+//                    data.getQueue().stream()
+//                            .filter(o -> o.getName().contains(arg))
+//                            .forEach(o -> System.out.println(o));
+            for (MusicBand band :
+                    musicBandsData.getQueue()) {
+                if (band.getName().contains(arg)) {
+                    msg1+=band;
+                }
+            }
+            return msg1;
+
+                } else {
+                    return ("Wrong input format");
+                }
+            case "update":
+                try {
+                    System.out.println("za delo");
+                    long id = Long.parseLong(serverCommand.getParams()[0]);
+                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[1]);
+
+                    System.out.println(id);
+
+                    if (musicBandsData.getListOfIds().contains(id)) {
+                        System.out.println("Mi tut");
+                        musicBandsData.updateMusicBand(id, musicBand);
+                        MusicBand newMusicBand = musicBandsData.getElementById(id);
+                        return ("Element with id " + id + " was updated, new one:\n" + newMusicBand);
+                    } else {
+                        System.out.println("Ili vot tyt");
+                        return ("Band with id " + id + " doesn't exist");
+                    }
+                } catch (NumberFormatException e) {
+                    return ("Wrong id number format");
+                }
+            case "remove_greater":
+                long oldSize = musicBandsData.getListOfIds().size();
+                System.out.println("Enter element data");
+                    MusicBand musicBand = MusicBandsDataXMLSerializer.readMusicBandFromXMLString(serverCommand.getParams()[0]);
+//                musicBandsData.remove(musicBandsData.getQueue().stream()
+//                        .filter(o ->musicBand.compareTo(o)>0)
+//                        .findFirst()
+//                        .get());
+                String msg2="";
+                for (Object k:  musicBandsData.getQueue().stream().filter(o-> musicBand.compareTo(o)>0).toArray()) {
+                    musicBandsData.remove((MusicBand) k);
+                    msg2+=((MusicBand)k).toString();
+                }
+                long newSize = musicBandsData.getListOfIds().size();
+                msg2 += ((oldSize - newSize) + " elements greater than " + musicBand + "\nwere removed");
+                return msg2;
         }
 
 
@@ -178,7 +293,7 @@ public class ServerSide {
                 try {
                     ServerCommand serverCommand = ServerCommand.deserializeFromString(received);
                     answer = processCommand(serverCommand);
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | JAXBException e) {
                     //WRONG COMMAND
                 }
 

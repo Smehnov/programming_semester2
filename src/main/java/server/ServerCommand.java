@@ -45,7 +45,6 @@ public class ServerCommand implements Serializable {
         ByteArrayInputStream bi = new ByteArrayInputStream(b);
         ObjectInputStream si = new ObjectInputStream(bi);
         return (ServerCommand) si.readObject();
-
     }
 
 
