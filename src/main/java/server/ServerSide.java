@@ -4,6 +4,7 @@ import band_data.EnterElementData;
 import band_data.MusicBand;
 import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
+import special.Constants;
 
 import javax.xml.bind.JAXBException;
 import java.io.BufferedReader;
@@ -47,7 +48,6 @@ public class ServerSide {
                 System.out.println("Got data");
 
             } catch (JAXBException e) {
-                e.printStackTrace();
                 System.out.println("error while reading data from XML");
                 System.out.println("Exit...");
                 System.exit(0);
@@ -57,7 +57,7 @@ public class ServerSide {
     }
 
     ServerSide() throws IOException {
-        this(666);
+        this(Constants.getPort());
     }
 
     String processCommand(ServerCommand serverCommand) throws JAXBException {
@@ -234,7 +234,6 @@ public class ServerSide {
                 MusicBandsDataXMLSerializer.saveToXml(musicBandsData, dataPath);
                 System.out.println("Data saved to file: " + dataPath);
             } catch (JAXBException e) {
-                e.printStackTrace();
                 System.out.println("Error while saving");
             }
         }
@@ -302,7 +301,6 @@ public class ServerSide {
             }
             serverSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("Can't start server because of io exception");
         }
     }

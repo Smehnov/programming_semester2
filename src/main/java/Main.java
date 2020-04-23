@@ -1,10 +1,9 @@
-import band_data.MusicBandsDataXMLSerializer;
 import band_data.Inputting;
 import band_data.MusicBandsData;
 import commands.*;
 import server.ServerSide;
+import special.Constants;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -19,16 +18,41 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Choose mode:\nclient\nserver\n>");
         String mode = sc.nextLine().trim();
-        if (mode.toLowerCase().equals("server")){
+        if (mode.toLowerCase().equals("server")) {
             try {
-                ServerSide.runServerSide();
-            }catch (IOException e){
+                System.out.println("Enter server port");
+                String portStr = sc.nextLine().trim();
+                try {
+                    int port = Integer.parseInt(portStr);
+                    Constants.setPort(port);
+                    System.out.println("running server on port " + port);
+                    ServerSide.runServerSide();
+                } catch (NumberFormatException e) {
+                    System.out.println("Wrong port format, exiting...");
+                    System.exit(0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("Can't start server, check all params");
                 System.exit(0);
             }
-        }else if (mode.toLowerCase().equals("client")){
+        } else if (mode.toLowerCase().equals("client")) {
+            System.out.println("Enter host name");
+            String host = sc.nextLine().trim();
+            System.out.println("Enter server port");
+            String portStr = sc.nextLine().trim();
+            try {
+                int port = Integer.parseInt(portStr);
+                Constants.setHost(host);
+                Constants.setPort(port);
+                System.out.println("Address of server set to " + host + ":" + port);
 
-        }else{
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong port format, exiting...");
+                System.exit(0);
+            }
+
+        } else {
             System.out.println("Not known mode, exit...");
             System.exit(0);
         }
@@ -42,10 +66,6 @@ public class Main {
         MusicBandsData musicBandsData = new MusicBandsData();
 
         //Scanner sc = new Scanner(System.in);
-
-
-
-
 
 
         HelpCommand helpCommand = new HelpCommand();

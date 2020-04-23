@@ -1,5 +1,6 @@
 package client;
 
+import special.Constants;
 import sun.nio.ch.DatagramSocketAdaptor;
 
 import javax.xml.crypto.Data;
@@ -12,7 +13,7 @@ import java.util.GregorianCalendar;
 
 public class ClientSide {
     public static String sendMessage(String msg) throws IOException {
-        return sendMessage(msg, "localhost", 666);
+        return sendMessage(msg, Constants.getHost(), Constants.getPort());
     }
 
     public static String sendMessage(String msg, String address, int port) throws IOException {
