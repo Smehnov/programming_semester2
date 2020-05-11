@@ -1,5 +1,4 @@
 package server;
-
 import band_data.EnterElementData;
 import band_data.MusicBand;
 import band_data.MusicBandsData;
@@ -15,6 +14,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.Scanner;
 
 public class ServerSide {
@@ -23,10 +23,27 @@ public class ServerSide {
     DatagramSocket serverSocket;
     byte[] buf;
     BufferedReader bufferedReader;
+    public static final String DB_URL = "jdbc:postgresql://pg/studs";
+    public static final String login = "s285689";
+    public static final String password = "Qwerty123";
+    public Connection connection = null;
+
 
     ServerSide(int port) throws IOException {
         serverSocket = new DatagramSocket(port);
         serverSocket.setSoTimeout(100);
+
+         try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(DB_URL, login, password);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("JDBC драйвер для СУБД не найден!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Ошибка SQL!");
+        }
 
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         readMusicBand();
