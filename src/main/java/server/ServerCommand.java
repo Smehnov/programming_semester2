@@ -7,11 +7,30 @@ import java.util.Arrays;
 
 public class ServerCommand implements Serializable {
     private String type;
+    private String userLogin;
+    private String userPassword;
+
     private String[] params;
 
     public ServerCommand(String type, String[] params) {
         this.type = type;
         this.params = params;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     public String getType() {
@@ -52,6 +71,8 @@ public class ServerCommand implements Serializable {
     public String toString() {
         return "ServerCommand{" +
                 "type='" + type + '\'' +
+                ", userLogin='" + userLogin + '\'' +
+                ", userPassword='" + userPassword + '\'' +
                 ", params=" + Arrays.toString(params) +
                 '}';
     }

@@ -1,3 +1,6 @@
 # Project exclude paths
 /target/
 .idea
+/lib/
+/out/
+/src/main/java/special/SPEC.java

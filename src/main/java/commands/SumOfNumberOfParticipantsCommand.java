@@ -3,6 +3,7 @@ package commands;
 import band_data.MusicBandsData;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 
@@ -17,6 +18,8 @@ public class SumOfNumberOfParticipantsCommand implements Command {
             String[] commandParams = null;
 
             ServerCommand serverCommand = new ServerCommand("sum_of_number_of_participants", commandParams);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);

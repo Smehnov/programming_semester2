@@ -8,6 +8,7 @@ import client.ClientSide;
 import commands.Command;
 import commands.CommandExecutor;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 
@@ -26,6 +27,8 @@ public class RemoveByIdCommand implements Command {
                 String[] commandParams = new String[1];
                 commandParams[0] = arg;
                 ServerCommand serverCommand = new ServerCommand("remove_by_id", commandParams);
+                serverCommand.setUserLogin(Constants.getUserLogin());
+                serverCommand.setUserPassword(Constants.getUserPassword());
                 String message = serverCommand.serializeToString();
 
                 String received = ClientSide.sendMessage(message);

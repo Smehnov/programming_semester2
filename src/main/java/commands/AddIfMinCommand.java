@@ -6,6 +6,7 @@ import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class AddIfMinCommand implements Command {
             String[] commandParams = new String[1];
             commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
             ServerCommand serverCommand = new ServerCommand("add_if_min", commandParams);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);

@@ -4,6 +4,7 @@ import band_data.MusicBand;
 import band_data.MusicBandsData;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 
@@ -17,6 +18,8 @@ public class ShowCommand implements Command {
 
         try {
             ServerCommand serverCommand = new ServerCommand("show", new String[0]);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);

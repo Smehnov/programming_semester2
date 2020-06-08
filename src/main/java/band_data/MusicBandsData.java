@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
+import java.util.concurrent.PriorityBlockingQueue;
 
 
 @XmlType(name = "musicbanddata")
@@ -26,13 +26,13 @@ public class MusicBandsData {
     /**
      * Field for main collection
      */
-    private PriorityQueue<MusicBand> queue;
+    private PriorityBlockingQueue<MusicBand> queue;
 
     /**
      * Generator for empty band_data.MusicBandsData
      */
     public MusicBandsData() {
-        queue = new PriorityQueue<>();
+        queue = new PriorityBlockingQueue<>();
         inizializationTime = LocalDateTime.now();
     }
 
@@ -52,7 +52,7 @@ public class MusicBandsData {
      *
      * @param queue - PriorityQueue
      */
-    public void setQueue(PriorityQueue<MusicBand> queue) {
+    public void setQueue(PriorityBlockingQueue<MusicBand> queue) {
         this.queue = queue;
     }
 
@@ -61,7 +61,7 @@ public class MusicBandsData {
      * Getter for PriorityQueue - main collection of band_data.MusicBandsData
      * @return this.queue
      */
-    public PriorityQueue<MusicBand> getQueue() {
+    public PriorityBlockingQueue<MusicBand> getQueue() {
         return this.queue;
     }
 
@@ -111,6 +111,19 @@ public class MusicBandsData {
     public void clearCollection() {
         this.getQueue().clear();
         System.out.println(this.getQueue().size());
+    }
+
+    public MusicBand[] getAllBands(){
+
+
+        MusicBand[] bands =new MusicBand[this.queue.size()];
+        int ind = 0;
+        for (MusicBand band:
+             queue) {
+            bands[ind] = band;
+            ind+=1;
+        }
+        return bands;
     }
 
     public void updateMusicBand(long id, MusicBand musicBand) {

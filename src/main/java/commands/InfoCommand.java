@@ -3,6 +3,7 @@ package commands;
 import band_data.MusicBandsData;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -17,6 +18,8 @@ public class InfoCommand implements Command {
 
             try {
                 ServerCommand serverCommand = new ServerCommand("info", new String[0]);
+                serverCommand.setUserLogin(Constants.getUserLogin());
+                serverCommand.setUserPassword(Constants.getUserPassword());
                 String message = serverCommand.serializeToString();
 
                 String received = ClientSide.sendMessage(message);

@@ -4,6 +4,7 @@ import band_data.MusicBand;
 import band_data.MusicBandsData;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 
@@ -18,6 +19,8 @@ public class FilterByNumberOfParticipantsCommand implements Command {
                 String[] commandParams = new String[1];
                 commandParams[0] = arg;
                 ServerCommand serverCommand = new ServerCommand("filter_by_number_of_participants", commandParams);
+                serverCommand.setUserLogin(Constants.getUserLogin());
+                serverCommand.setUserPassword(Constants.getUserPassword());
                 String message = serverCommand.serializeToString();
 
                 String received = ClientSide.sendMessage(message);

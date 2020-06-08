@@ -4,6 +4,7 @@ import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import java.io.IOException;
 
@@ -18,6 +19,8 @@ public class HelpCommand implements Command {
             String[] commandParams = null;
 
             ServerCommand serverCommand = new ServerCommand("help", commandParams);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);

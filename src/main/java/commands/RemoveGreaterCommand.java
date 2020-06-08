@@ -6,6 +6,7 @@ import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class RemoveGreaterCommand implements Command {
             String[] commandParams = new String[1];
             commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
             ServerCommand serverCommand = new ServerCommand("remove_greater", commandParams);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
             String received = ClientSide.sendMessage(message);
             System.out.println(received);

@@ -6,6 +6,7 @@ import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
 import client.ClientSide;
 import server.ServerCommand;
+import special.Constants;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class AddCommand implements Command {
 
             commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(musicBand);
             ServerCommand serverCommand = new ServerCommand("add", commandParams);
+            serverCommand.setUserLogin(Constants.getUserLogin());
+            serverCommand.setUserPassword(Constants.getUserPassword());
             String message = serverCommand.serializeToString();
 
             String received = ClientSide.sendMessage(message);

@@ -13,7 +13,10 @@ import java.time.ZonedDateTime;
 @XmlRootElement
 public class MusicBand implements Comparable<MusicBand> {
 
-
+    public String[] toTableRow(){
+        //TODO LOCALIZE DATE
+        return new String[]{this.name, this.coordinates.getX().toString(), this.coordinates.getY().toString(), this.creationDate.toString(), this.numberOfParticipants.toString(), this.genre.toString(), this.bestAlbum.getName().toString(), this.bestAlbum.getLength().toString()};
+    }
     public MusicBand() {
         this.id = 0;
         this.creationDate = ZonedDateTime.now();
@@ -31,12 +34,24 @@ public class MusicBand implements Comparable<MusicBand> {
     /**
      * Field for coordinates
      */
-    @XmlElement(name = "coordinates")
+
     private Coordinates coordinates; //Поле не может быть null
+
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    @XmlJavaTypeAdapter(value = ZonedDateTimeAdapter.class)
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
+    }
+
     /**
      * Field for auto-generated value of creation date
      */
-    @XmlJavaTypeAdapter(value = ZonedDateTimeAdapter.class)
+
+
     private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     /**
      * Field for number of Participants of Music Band
