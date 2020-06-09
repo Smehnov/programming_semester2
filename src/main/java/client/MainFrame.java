@@ -37,7 +37,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     JButton UAButton=new JButton("UA");
     JButton SLButton=new JButton("SL");
     JButton ESButton=new JButton("ES");
-    String[][] tableData = new String[][]{{"a","b","c","d", "e","f", "g", "h"}};
     ArrayList<String[]> t= new ArrayList<>();
 
     String[] col ={"name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};

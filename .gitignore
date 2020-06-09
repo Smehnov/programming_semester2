@@ -3,4 +3,4 @@
 .idea
 /lib/
 /out/
-/src/main/java/special/SPEC.java
+src/main/java/special/SPEC.java
