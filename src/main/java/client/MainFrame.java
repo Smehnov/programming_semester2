@@ -14,6 +14,8 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -54,10 +56,66 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     JScrollPane scrollPane = new JScrollPane(table);
 
     MainFrame(){
+
+
+        addEventListeners();
+
         setLocationAndSize();
         setLayoutManager(); //To set the layout manager to null
         addComponentsToContainer();
         showData();
+    }
+
+    void addEventListeners(){
+        table.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+                int r = table.rowAtPoint(e.getPoint());
+                if (r >= 0 && r < table.getRowCount()) {
+                    table.setRowSelectionInterval(r, r);
+                } else {
+                    table.clearSelection();
+                }
+
+
+                int rowindex = table.getSelectedRow();
+                if (rowindex < 0) {
+                    return;
+                }
+                if(e.getButton()==3) {
+                    JPopupMenu popup = new JPopupMenu();
+                    popup.add(new JMenuItem("Edit"));
+                    popup.add(new JMenuItem("Delete"));
+                    popup.setVisible(true);
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println(rowindex);
+                }
+            }
+        });
+
+        ClearButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                try {
+                    String[] commandParams = null;
+
+                    ServerCommand serverCommand = new ServerCommand("clear", commandParams);
+                    serverCommand.setUserLogin(Constants.getUserLogin());
+                    serverCommand.setUserPassword(Constants.getUserPassword());
+                    String message = serverCommand.serializeToString();
+
+                    String received = ClientSide.sendMessage(message);
+                    JOptionPane.showMessageDialog(null,received);
+
+                } catch (IOException ee) {
+                    ee.printStackTrace();
+                    JOptionPane.showMessageDialog(null,"Can't connect to server, try to enter command again");
+                }
+            }
+        });
     }
 
     public void showData(){
@@ -89,10 +147,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             JOptionPane.showMessageDialog(null,"Error while sending message to server...");
         }
     }
-    public void updateTableData(String[][] data){
-
-        }
-
     public void setLayoutManager()
     {
         container.setLayout(null);
