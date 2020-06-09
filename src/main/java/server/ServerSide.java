@@ -78,7 +78,7 @@ public class ServerSide {
             return "Password invalid";
         }
 
-
+        System.out.println(serverCommand.getType());
         switch (serverCommand.getType()) {
             case "add":
                 return add(serverCommand, userInfo);
@@ -299,7 +299,7 @@ public class ServerSide {
 
             musicBandsData1.addMusicBand(musicBand);
             DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
-            String msg = "New element was added:\n" + musicBand.toString();
+            String msg = "New element was added!";
             return msg;
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -411,7 +411,7 @@ public class ServerSide {
             }else if(input.getMessage() instanceof ArrayList){
                 ArrayList<String> bandsString = new ArrayList<>();
                 for(Object band:(ArrayList)input.getMessage()){
-                    System.out.println(band);
+//                    System.out.println(band);
                     try {
                         bandsString.add(MusicBandsDataXMLSerializer.serializeMusicBand((MusicBand)band));
                     }

@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
 public class EnterMusicBand {
-    public static void main(String[] a){
-        EnterMusicBandFrame frame=new EnterMusicBandFrame();
-        frame.setTitle("Add button");
+    public static void run(String type, String title, MainFrame mainFrame){
+        EnterMusicBandFrame frame=new EnterMusicBandFrame(type, mainFrame);
+        frame.setTitle(title);
         frame.setVisible(true);
         frame.setBounds(10,10,350,500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
