@@ -1,26 +1,23 @@
 package client;
 
-import band_data.EnterElementData;
 import band_data.MusicBand;
-import commands.ClearCommand;
 import server.ServerCommand;
 import special.Constants;
 import special.Dict;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 
 public class MainFrame extends JFrame implements ActionListener, TableModelListener {
@@ -40,10 +37,11 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     JButton ESButton = new JButton("ES");
     MainFrame mainFrame = this;
     ArrayList<String[]> t = new ArrayList<>();
-
+    ArrayList<MusicBand> musicBands = new ArrayList<>();
     String[] col = {"name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};
     DefaultTableModel tableModel = new DefaultTableModel(col, 0);
 
+    Graphics2D graphics;
     JTable table = new JTable(tableModel) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -52,8 +50,54 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
 
     };
+    public class JPanelForDrawing extends JPanel {
+        Graphics2D g2;
+
+        public void drawNote(Graphics2D g2, double x, double y) {
+            try {
+
+                File f = new File("note.png");
+                BufferedImage img = ImageIO.read(f);
+//                g2.drawImage(img, (int) x, (int) y, null);
+
+
+//                AffineTransform tfm = new AffineTransform();
+//                tfm.rotate(0,0,0);
+//                g2.setTransform(tfm);
+                g2.drawImage(img, (int)x, (int)y, null);
+//                tfm.rotate(Math.toRadians(0), 8, 8);
+//                g2.setTransform(tfm);
+
+
+            } catch (IOException e) {
+                System.out.println("CAN'T LOAD IMAGE");
+                e.printStackTrace();
+
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+
+            g2 = (Graphics2D) g;
+            for (MusicBand band:
+                    musicBands) {
+                drawNote(g2, band.getCoordinates().getX(),band.getCoordinates().getY());
+            }
+            g2.setColor(Color.BLACK);
+
+            g2.drawRect(0, 0, 200, 180);
+        }
+    }
+
+
 
     JScrollPane scrollPane = new JScrollPane(table);
+
+    JPanelForDrawing mapPanel = new JPanelForDrawing();
+
 
     MainFrame() {
 
@@ -107,9 +151,10 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             }
         });
 
+
         ClearButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
 
                 try {
                     String[] commandParams = null;
@@ -121,23 +166,25 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
                     String received = ClientSide.sendMessage(message);
                     JOptionPane.showMessageDialog(null, received);
-                    showData();
                 } catch (IOException ee) {
                     ee.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
                 }
+
+                showData();
+
             }
         });
 
         AddButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 EnterMusicBand.run("add", "Add band", mainFrame);
             }
         });
         InfoButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 try {
                     ServerCommand serverCommand = new ServerCommand("info", new String[0]);
                     serverCommand.setUserLogin(Constants.getUserLogin());
@@ -155,7 +202,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
         HelpButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 try {
                     String[] commandParams = null;
 
@@ -175,28 +222,28 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         });
         RUButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("ru");
                 updateText();
             }
         });
         UAButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("ua");
                 updateText();
             }
         });
         SLButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("sl");
                 updateText();
             }
         });
         ESButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("es");
                 updateText();
             }
@@ -204,7 +251,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
         SumParticipantsButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 try {
                     String[] commandParams = null;
 
@@ -238,15 +285,24 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             }
             if (received[0].equals("bands")) {
                 System.out.println(received[1]);
-                for (int i = 0; i < tableModel.getRowCount(); i++) {
-                    tableModel.removeRow(i);
+                int rowCount = tableModel.getRowCount();
+                for (int i = 0; i < rowCount; i++) {
+                    tableModel.removeRow(0);
 
                 }
                 ArrayList<MusicBand> bands = (ArrayList<MusicBand>) received[1];
+                musicBands.clear();
                 for (MusicBand band :
                         bands) {
+                    musicBands.add(band);
                     tableModel.addRow(band.toTableRow());
+
+
+
+//                    mapPanel.drawNote(band.getCoordinates().getX(), band.getCoordinates().getY());
                 }
+                mapPanel.repaint();
+
 
 
             }
@@ -261,22 +317,21 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
     public void setLocationAndSize() {
 
-        AddButton.setBounds(25, 25, 150, 25);
-        AddIfMaxButton.setBounds(150, 25, 150, 25);
-        AddIfMinButton.setBounds(275, 25, 150, 25);
-        ClearButton.setBounds(25, 75, 150, 25);
-        HelpButton.setBounds(150, 75, 150, 25);
-        InfoButton.setBounds(275, 75, 150, 25);
-        SumParticipantsButton.setBounds(25, 175, 150, 25);
-        RemoveGreaterButton.setBounds(225, 175, 150, 25);
+        AddButton.setBounds(25, 25, 160, 25);
+        AddIfMaxButton.setBounds(180, 25, 160, 25);
+        AddIfMinButton.setBounds(335, 25, 160, 25);
+        ClearButton.setBounds(25, 75, 160, 25);
+        HelpButton.setBounds(180, 75, 160, 25);
+        InfoButton.setBounds(335, 75, 160, 25);
+        SumParticipantsButton.setBounds(25, 125, 160, 25);
+        RemoveGreaterButton.setBounds(180, 125, 160, 25);
         RUButton.setBounds(500, 25, 50, 25);
         ENButton.setBounds(500, 50, 50, 25);
         UAButton.setBounds(500, 75, 50, 25);
         SLButton.setBounds(500, 100, 50, 25);
         ESButton.setBounds(500, 125, 50, 25);
-        scrollPane.setBounds(10, 200, 700, 300);
-
-
+        scrollPane.setBounds(10, 200, 750, 300);
+        mapPanel.setBounds(550, 10, 300, 200);
     }
 
     public void addComponentsToContainer() {
@@ -294,6 +349,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         container.add(SLButton);
         container.add(ESButton);
         container.add(scrollPane);
+        container.add(mapPanel);
 
     }
 

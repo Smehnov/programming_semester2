@@ -15,7 +15,7 @@ public class MusicBand implements Comparable<MusicBand> {
 
     public String[] toTableRow(){
         //TODO LOCALIZE DATE
-        return new String[]{this.name, this.coordinates.getX().toString(), this.coordinates.getY().toString(), this.creationDate.toString(), this.numberOfParticipants.toString(), this.genre.toString(), this.bestAlbum.getName().toString(), this.bestAlbum.getLength().toString()};
+        return new String[]{this.name, this.coordinates.getX().toString(), this.coordinates.getY().toString(), this.creationDate.toString(), this.numberOfParticipants.toString(), this.genre.toString(), this.bestAlbum.getName().toString(), this.bestAlbum.getName().toString().trim()!=""?this.bestAlbum.getLength().toString():" "};
     }
     public MusicBand() {
         this.id = 0;

@@ -69,11 +69,45 @@ public class DataBase {
     }
 
     public static void saveMusicBandsDataForUserWithId(int user_id, MusicBandsData musicBandsData) {
+        System.out.println("________________________________________________________");
+        System.out.println(musicBandsData.getQueue().size());
         MusicBandsData oldData = DataBase.getMusicBandsDataByUserId(user_id);
         List<Long> oldbandsIds = oldData.getListOfIds();
+        List<Long> bandsIds = musicBandsData.getListOfIds();
+
         MusicBand[] bands = musicBandsData.getAllBands();
+
+
+        for (long oldBandId:
+                oldbandsIds) {
+            if(!bandsIds.contains(oldBandId)){
+                System.out.println("DELETE "+oldBandId);
+                try {
+                    Class.forName("org.postgresql.Driver");
+                    Connection connection = DriverManager.getConnection(DB_URL, login, password);
+                    connection.setAutoCommit(false);
+                    String insertSQL = "DELETE FROM Derechi_Smehnov_Music_Bands WHERE ID=?";
+                    PreparedStatement stat = connection.prepareStatement(insertSQL);
+                    stat.setLong(1, oldBandId);
+
+
+                    stat.executeUpdate();
+                    stat.close();
+                    connection.commit();
+                    connection.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("JDBC driver not found");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("SQL error!");
+                }
+            }
+        }
+
         for (MusicBand band :
                 bands) {
+
             if (oldbandsIds.contains(band.getId())) {
 
                 try {
@@ -159,7 +193,11 @@ public class DataBase {
                     System.out.println("SQL error!");
                 }
             }
+
         }
+
+
+
 
     }
 

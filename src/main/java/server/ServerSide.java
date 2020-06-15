@@ -114,7 +114,7 @@ public class ServerSide {
 
     String clear(ServerCommand serverCommand, UserInfo userInfo){
         MusicBandsData musicBandsData1 = DataBase.getMusicBandsDataByUserId(userInfo.getId());
-        musicBandsData.getQueue().clear();
+        musicBandsData1.clearCollection();
         DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
 
