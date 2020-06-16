@@ -81,13 +81,12 @@ public class MusicBandsData {
             if (band.getId() > greatestId) {
                 greatestId = band.getId();
             }
-
         }
         return greatestId;
     }
 
     public void addMusicBand(MusicBand musicBand) {
-        musicBand.setId(this.getGreatestId() + 1);
+
         this.queue.add(musicBand);
     }
 

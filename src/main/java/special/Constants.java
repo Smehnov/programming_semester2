@@ -2,7 +2,7 @@ package special;
 
 public class Constants {
     static String host = "localhost";
-    static int port = 7000;
+    static int port = 1000;
     static String userLogin = "alex";
     static String userPassword ="123";
     public static String getHost() {

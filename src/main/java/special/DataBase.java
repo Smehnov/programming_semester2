@@ -89,6 +89,7 @@ public class DataBase {
                     String insertSQL = "DELETE FROM Derechi_Smehnov_Music_Bands WHERE ID=?";
                     PreparedStatement stat = connection.prepareStatement(insertSQL);
                     stat.setLong(1, oldBandId);
+                    System.out.println(stat.toString());
 
 
                     stat.executeUpdate();
@@ -104,6 +105,7 @@ public class DataBase {
                 }
             }
         }
+
 
         for (MusicBand band :
                 bands) {

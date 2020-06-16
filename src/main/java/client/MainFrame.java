@@ -31,7 +31,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     JButton HelpButton = new JButton(Dict.getTranslation("Help"));
     JButton ClearButton = new JButton(Dict.getTranslation("Clear"));
     JButton RUButton = new JButton("RU");
-    JButton ENButton = new JButton("EN");
     JButton UAButton = new JButton("UA");
     JButton SLButton = new JButton("SL");
     JButton ESButton = new JButton("ES");
@@ -326,12 +325,11 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         SumParticipantsButton.setBounds(25, 125, 160, 25);
         RemoveGreaterButton.setBounds(180, 125, 160, 25);
         RUButton.setBounds(500, 25, 50, 25);
-        ENButton.setBounds(500, 50, 50, 25);
-        UAButton.setBounds(500, 75, 50, 25);
-        SLButton.setBounds(500, 100, 50, 25);
-        ESButton.setBounds(500, 125, 50, 25);
+        UAButton.setBounds(500, 50, 50, 25);
+        SLButton.setBounds(500, 75, 50, 25);
+        ESButton.setBounds(500, 100, 50, 25);
         scrollPane.setBounds(10, 200, 750, 300);
-        mapPanel.setBounds(550, 10, 300, 200);
+        mapPanel.setBounds(550, 10, 300, 190);
     }
 
     public void addComponentsToContainer() {
@@ -344,7 +342,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         container.add(InfoButton);
         container.add(HelpButton);
         container.add(RUButton);
-        container.add(ENButton);
         container.add(UAButton);
         container.add(SLButton);
         container.add(ESButton);
