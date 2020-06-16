@@ -139,8 +139,8 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         showData();
 
         table.setRowSorter(sorter);
-        sortKeys.add(new RowSorter.SortKey(5, SortOrder.ASCENDING));
-        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+
+
         sorter.setSortKeys(sortKeys);
 
 
@@ -323,7 +323,12 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                 System.out.println(received[1]);
                 int rowCount = tableModel.getRowCount();
                 for (int i = 0; i < rowCount; i++) {
-                    tableModel.removeRow(0);
+                    try {
+                        tableModel.removeRow(0);
+                    }
+                    catch (IndexOutOfBoundsException e){
+                        //жизнь боль
+                    }
 
                 }
                 ArrayList<MusicBand> bands = (ArrayList<MusicBand>) received[1];

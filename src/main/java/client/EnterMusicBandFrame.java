@@ -3,6 +3,7 @@ package client;
 import band_data.*;
 import server.ServerCommand;
 import special.Constants;
+import special.Dict;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -11,17 +12,19 @@ import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class EnterMusicBandFrame extends JFrame implements ActionListener {
     Container container = getContentPane();
-    JLabel NameText = new JLabel("Name*");
-    JLabel XText = new JLabel("X*");
-    JLabel YText = new JLabel("Y*");
-    JLabel NumberParticipantsText = new JLabel("Number of participants*");
-    JLabel GenreText = new JLabel("Music genre*");
-    JLabel NameBestAlbumText = new JLabel("Name of the best album");
-    JLabel LengthText = new JLabel("Length");
+    JLabel NameText = new JLabel(Dict.getTranslation("Name")+"*");
+    JLabel XText = new JLabel(Dict.getTranslation("X")+"*");
+    JLabel YText = new JLabel(Dict.getTranslation("Y")+"*");
+    JLabel NumberParticipantsText = new JLabel(Dict.getTranslation("Number of participants")+"*");
+    JLabel GenreText = new JLabel(Dict.getTranslation("Music genre")+"*");
+    JLabel NameBestAlbumText = new JLabel(Dict.getTranslation("Name of the best album"));
+    JLabel LengthText = new JLabel(Dict.getTranslation("Length"));
     JTextField NameField = new JTextField();
     JTextField XField = new JTextField();
     JTextField YField = new JTextField();
@@ -30,7 +33,7 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
     JComboBox comboBox = new JComboBox(genres);
     JTextField NameBestAlbumField = new JTextField();
     JTextField LengthField = new JTextField();
-    JButton EnterButton = new JButton("Enter");
+    JButton EnterButton = new JButton(Dict.getTranslation("Enter"));
     String type;
     MainFrame mainFrame;
 
@@ -53,6 +56,14 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
         addActionEvent();
         LengthField.setVisible(false);
         LengthText.setVisible(false);
+        mainFrame.setVisible(false);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                mainFrame.setVisible(true);
+            }
+        });
 
         NameBestAlbumField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -235,8 +246,11 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
 
                             String received = ClientSide.sendMessage(message);
                             JOptionPane.showMessageDialog(null,received);
+
                             mainFrame.showData();
                             this.setVisible(false);
+                            mainFrame.setVisible(true);
+
                             this.dispose();
 
                         } catch (IOException ex) {

@@ -16,6 +16,12 @@ public class Dict {
         addWord("Info", new Word("Информация","інформація","Informacije","Información"));
         addWord("Sum participants", new Word("Сумма участников","сума учасників","Število udeležencev","Cantidad de participantes"));
         addWord("Remove greater", new Word("Удалить большие","видалити великі","Odstranite velike","Eliminar grande"));
+        addWord("Name", new Word("Имя","ім'я","Ime","Nombre"));
+        addWord("Number of participants", new Word("Число участников","число учасників","Število udeležencev","Número de participantes"));
+        addWord("Music genre", new Word("Музыкальный жанр","Музичний жанр","Glasbeni žanr","Genero musical"));
+        addWord("Name of the best album", new Word("Название лучшего альбома","Назва кращого альбому","Ime najboljšega albuma","El nombre del mejor álbum"));
+        addWord("Length", new Word("Длина","Довжина","Dolžina","Longitud"));
+        addWord("Enter", new Word("Ввод","Введення","Vnesite","Entrar"));
 
     }
 
