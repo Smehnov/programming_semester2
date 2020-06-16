@@ -7,7 +7,7 @@ public class MainWindow {
         MainFrame frame=new MainFrame();
         frame.setTitle("Main window");
         frame.setVisible(true);
-        frame.setBounds(0,0,800,600);
+        frame.setBounds(0,0,900,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 

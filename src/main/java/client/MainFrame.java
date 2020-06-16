@@ -11,6 +11,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -18,7 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class MainFrame extends JFrame implements ActionListener, TableModelListener {
     Container container = getContentPane();
@@ -37,8 +38,36 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     MainFrame mainFrame = this;
     ArrayList<String[]> t = new ArrayList<>();
     ArrayList<MusicBand> musicBands = new ArrayList<>();
-    String[] col = {"name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};
-    DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+    String[] col = {"id", "name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};
+    DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex) {
+                case 0:
+                    return Long.class;
+                case 1:
+                    return String.class;
+                case 2:
+                    return Double.class;
+                case 3:
+                    return Float.class;
+                case 4:
+                    return java.time.LocalDateTime.class;
+                case 5:
+                    return Long.class;
+                case 6:
+                    return String.class;
+                case 7:
+                    return String.class;
+                case 8:
+                    return Long.class;
+                default:
+                    return String.class;
+            }
+        }
+    };
+    List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
+
 
     Graphics2D graphics;
     JTable table = new JTable(tableModel) {
@@ -46,9 +75,11 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         public boolean isCellEditable(int row, int column) {
             return false;
         }
-
-
     };
+
+    TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel);
+
+
     public class JPanelForDrawing extends JPanel {
         Graphics2D g2;
 
@@ -63,7 +94,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 //                AffineTransform tfm = new AffineTransform();
 //                tfm.rotate(0,0,0);
 //                g2.setTransform(tfm);
-                g2.drawImage(img, (int)x, (int)y, null);
+                g2.drawImage(img, (int) x, (int) y, null);
 //                tfm.rotate(Math.toRadians(0), 8, 8);
 //                g2.setTransform(tfm);
 
@@ -81,16 +112,15 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
 
             g2 = (Graphics2D) g;
-            for (MusicBand band:
+            for (MusicBand band :
                     musicBands) {
-                drawNote(g2, band.getCoordinates().getX(),band.getCoordinates().getY());
+                drawNote(g2, band.getCoordinates().getX(), band.getCoordinates().getY());
             }
             g2.setColor(Color.BLACK);
 
             g2.drawRect(0, 0, 200, 180);
         }
     }
-
 
 
     JScrollPane scrollPane = new JScrollPane(table);
@@ -107,6 +137,13 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         setLayoutManager(); //To set the layout manager to null
         addComponentsToContainer();
         showData();
+
+        table.setRowSorter(sorter);
+        sortKeys.add(new RowSorter.SortKey(5, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+
+
     }
 
     void updateText() {
@@ -297,11 +334,9 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                     tableModel.addRow(band.toTableRow());
 
 
-
 //                    mapPanel.drawNote(band.getCoordinates().getX(), band.getCoordinates().getY());
                 }
                 mapPanel.repaint();
-
 
 
             }
@@ -328,7 +363,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         UAButton.setBounds(500, 50, 50, 25);
         SLButton.setBounds(500, 75, 50, 25);
         ESButton.setBounds(500, 100, 50, 25);
-        scrollPane.setBounds(10, 200, 750, 300);
+        scrollPane.setBounds(10, 200, 850, 300);
         mapPanel.setBounds(550, 10, 300, 190);
     }
 
