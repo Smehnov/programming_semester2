@@ -37,6 +37,8 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     JButton ESButton = new JButton("ES");
     MainFrame mainFrame = this;
     ArrayList<String[]> t = new ArrayList<>();
+    ArrayList<JLabel> notes = new ArrayList<>();
+
     ArrayList<MusicBand> musicBands = new ArrayList<>();
     String[] col = {"id", "name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};
     DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
@@ -84,26 +86,26 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         Graphics2D g2;
 
         public void drawNote(Graphics2D g2, double x, double y) {
-            try {
-
-                File f = new File("note.png");
-                BufferedImage img = ImageIO.read(f);
-//                g2.drawImage(img, (int) x, (int) y, null);
-
-
-//                AffineTransform tfm = new AffineTransform();
-//                tfm.rotate(0,0,0);
-//                g2.setTransform(tfm);
-                g2.drawImage(img, (int) x, (int) y, null);
-//                tfm.rotate(Math.toRadians(0), 8, 8);
-//                g2.setTransform(tfm);
-
-
-            } catch (IOException e) {
-                System.out.println("CAN'T LOAD IMAGE");
-                e.printStackTrace();
-
-            }
+//            try {
+//
+////                File f = new File("note.png");
+////                BufferedImage img = ImageIO.read(f);
+////                g2.drawImage(img, (int) x, (int) y, null);
+//
+//
+////                AffineTransform tfm = new AffineTransform();
+////                tfm.rotate(0,0,0);
+////                g2.setTransform(tfm);
+////                g2.drawImage(img, (int) x, (int) y, null);
+////                tfm.rotate(Math.toRadians(0), 8, 8);
+////                g2.setTransform(tfm);
+//
+//
+//            } catch (IOException e) {
+//                System.out.println("CAN'T LOAD IMAGE");
+//                e.printStackTrace();
+//
+//            }
         }
 
         @Override
@@ -125,7 +127,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
     JScrollPane scrollPane = new JScrollPane(table);
 
-    JPanelForDrawing mapPanel = new JPanelForDrawing();
+    JPanel mapPanel = new JPanel(new BorderLayout());
 
 
     MainFrame() {
@@ -144,6 +146,19 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         sorter.setSortKeys(sortKeys);
 
 
+    }
+
+    void addNotes(){
+        for(JLabel pic:notes) {
+            mapPanel.add(pic);
+        }
+    }
+
+    void clearNotes(){
+        for(JLabel pic:notes){
+            mapPanel.remove(pic);
+        }
+        notes.clear();
     }
 
     void updateText() {
@@ -333,14 +348,23 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                 }
                 ArrayList<MusicBand> bands = (ArrayList<MusicBand>) received[1];
                 musicBands.clear();
+
+                File f = new File("note.png");
+                BufferedImage img = ImageIO.read(f);
+                clearNotes();
                 for (MusicBand band :
                         bands) {
                     musicBands.add(band);
                     tableModel.addRow(band.toTableRow());
 
+                    JLabel picLabel = new JLabel(new ImageIcon(img));
+                    picLabel.setBounds((int)(band.getCoordinates().getX()+0),(int)(band.getCoordinates().getY()+0),16,16);
+                    notes.add(picLabel);
 
 //                    mapPanel.drawNote(band.getCoordinates().getX(), band.getCoordinates().getY());
                 }
+
+                addNotes();
                 mapPanel.repaint();
 
 
