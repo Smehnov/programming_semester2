@@ -127,7 +127,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
     JScrollPane scrollPane = new JScrollPane(table);
 
-    JPanel mapPanel = new JPanel(new BorderLayout());
+    JPanel mapPanel = new JPanel(null);
 
 
     MainFrame() {
@@ -139,7 +139,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         setLayoutManager(); //To set the layout manager to null
         addComponentsToContainer();
         showData();
-
         table.setRowSorter(sorter);
 
 
