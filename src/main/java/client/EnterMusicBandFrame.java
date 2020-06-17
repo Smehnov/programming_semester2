@@ -18,11 +18,11 @@ import java.io.IOException;
 
 public class EnterMusicBandFrame extends JFrame implements ActionListener {
     Container container = getContentPane();
-    JLabel NameText = new JLabel(Dict.getTranslation("Name")+"*");
-    JLabel XText = new JLabel(Dict.getTranslation("X")+"*");
-    JLabel YText = new JLabel(Dict.getTranslation("Y")+"*");
-    JLabel NumberParticipantsText = new JLabel(Dict.getTranslation("Number of participants")+"*");
-    JLabel GenreText = new JLabel(Dict.getTranslation("Music genre")+"*");
+    JLabel NameText = new JLabel(Dict.getTranslation("Name") + "*");
+    JLabel XText = new JLabel(Dict.getTranslation("X") + "*");
+    JLabel YText = new JLabel(Dict.getTranslation("Y") + "*");
+    JLabel NumberParticipantsText = new JLabel(Dict.getTranslation("Number of participants") + "*");
+    JLabel GenreText = new JLabel(Dict.getTranslation("Music genre") + "*");
     JLabel NameBestAlbumText = new JLabel(Dict.getTranslation("Name of the best album"));
     JLabel LengthText = new JLabel(Dict.getTranslation("Length"));
     JTextField NameField = new JTextField();
@@ -44,7 +44,6 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
     boolean albumNameIsOk = false;
     boolean albumLengthIsOk = false;
     boolean albumDataIsOk = false;
-
 
 
     EnterMusicBandFrame(String type, MainFrame mainFrame) {
@@ -79,16 +78,16 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 String albumName = NameBestAlbumField.getText().trim();
-                if (albumName.length()>0){
+                if (albumName.length() > 0) {
                     albumNameIsOk = true;
-                }else {
+                } else {
                     albumNameIsOk = false;
                 }
 
-                if (albumNameIsOk){
+                if (albumNameIsOk) {
                     LengthField.setVisible(true);
                     LengthText.setVisible(true);
-                }else{
+                } else {
                     LengthField.setVisible(false);
                     LengthText.setVisible(false);
                 }
@@ -150,89 +149,89 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == EnterButton) {
             String bandName = NameField.getText().trim();
-            nameIsOk = bandName.length()>0;
+            nameIsOk = bandName.length() > 0;
 
-            if(!nameIsOk){
+            if (!nameIsOk) {
                 NameField.setBackground(new Color(190, 115, 106));
-            }else{
+            } else {
                 NameField.setBackground(new Color(255, 255, 255));
             }
             Double bandX = 0d;
             Float bandY = 0f;
-            try{
+            try {
                 bandX = Double.parseDouble(XField.getText().trim());
                 xIsOk = true;
                 XField.setBackground(new Color(255, 255, 255));
 
-            }catch (NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 xIsOk = false;
                 XField.setBackground(new Color(190, 115, 106));
             }
 
-            try{
+            try {
                 bandY = Float.parseFloat(YField.getText().trim());
                 yIsOk = true;
                 YField.setBackground(new Color(255, 255, 255));
 
-            }catch (NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 yIsOk = false;
                 YField.setBackground(new Color(190, 115, 106));
             }
 
             int bandNumberOfParticipants = 0;
 
-            try{
+            try {
                 bandNumberOfParticipants = Integer.parseInt(NumberParticipantsField.getText().trim());
-                numberIsOk = bandNumberOfParticipants>0;
-            }catch (NumberFormatException ex){
+                numberIsOk = bandNumberOfParticipants > 0;
+            } catch (NumberFormatException ex) {
                 numberIsOk = false;
             }
-            if(!numberIsOk){
+            if (!numberIsOk) {
                 NumberParticipantsField.setBackground(new Color(190, 115, 106));
-            }else{
+            } else {
                 NumberParticipantsField.setBackground(new Color(255, 255, 255));
             }
 
             String albumName = NameBestAlbumField.getText().trim();
             long albumLength = 0;
 
-            if (albumName.length()>0){
+            if (albumName.length() > 0) {
                 albumNameIsOk = true;
                 try {
                     albumLength = Long.parseLong(LengthField.getText().trim());
-                    albumLengthIsOk = albumLength>0;
+                    albumLengthIsOk = albumLength > 0;
 
-                }catch (NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     albumLengthIsOk = false;
 
                 }
 
-                if(!albumLengthIsOk){
+                if (!albumLengthIsOk) {
                     LengthField.setBackground(new Color(190, 115, 106));
-                }else{
+                } else {
                     LengthField.setBackground(new Color(255, 255, 255));
 
                 }
-            }else {
+            } else {
                 albumLengthIsOk = false;
             }
 
-            if((albumNameIsOk && albumLengthIsOk) || (albumName.length()==0)){
+            if ((albumNameIsOk && albumLengthIsOk) || (albumName.length() == 0)) {
                 albumDataIsOk = true;
             }
-            MusicGenre genre = MusicGenre.valueOf((String)comboBox.getSelectedItem());
-            if (nameIsOk && xIsOk && yIsOk && numberIsOk &&albumDataIsOk){
+            MusicGenre genre = MusicGenre.valueOf((String) comboBox.getSelectedItem());
+            if (nameIsOk && xIsOk && yIsOk && numberIsOk && albumDataIsOk) {
                 MusicBand band = new MusicBand();
                 band.setName(bandName);
                 band.setCoordinates(new Coordinates(bandX, bandY));
                 band.setNumberOfParticipants(bandNumberOfParticipants);
                 band.setGenre(genre);
-                if(albumNameIsOk && albumLengthIsOk){
+                if (albumNameIsOk && albumLengthIsOk) {
                     band.setBestAlbum(new Album(albumName, albumLength));
                 }
 
                 //EXECUTE COMMAND BY TYPE
-                switch (type){
+                switch (type) {
                     case "add":
                         //TODO ADD
                         try {
@@ -245,7 +244,7 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
                             String message = serverCommand.serializeToString();
 
                             String received = ClientSide.sendMessage(message);
-                            JOptionPane.showMessageDialog(null,received);
+                            JOptionPane.showMessageDialog(null, received);
 
                             mainFrame.showData();
                             this.setVisible(false);
@@ -255,24 +254,45 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
 
                         } catch (IOException ex) {
                             ex.printStackTrace();
-                            JOptionPane.showMessageDialog(null,"Can't connect to server, try to enter command again");
-                        }catch(JAXBException ex){
+                            JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                        } catch (JAXBException ex) {
                             ex.printStackTrace();
-                            JOptionPane.showMessageDialog(null,"Can't serialize music band :(");
+                            JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
                         }
                         break;
+                    default:
+                        if (type.startsWith("update_")) {
+                            long band_id = Long.parseLong(type.replace("update_", ""));
+                            try {
+                                String[] commandParams = new String[2];
+                                commandParams[0] = band_id+"";
+                                commandParams[1] = MusicBandsDataXMLSerializer.serializeMusicBand(band);
+                                ServerCommand serverCommand = new ServerCommand("update", commandParams);
+                                serverCommand.setUserLogin(Constants.getUserLogin());
+                                serverCommand.setUserPassword(Constants.getUserPassword());
+                                String message = serverCommand.serializeToString();
+
+                                String received = ClientSide.sendMessage(message);
+                                JOptionPane.showMessageDialog(null, received);
+
+                                mainFrame.showData();
+                                this.setVisible(false);
+                                mainFrame.setVisible(true);
+
+                                this.dispose();
+
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                            } catch (JAXBException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
+                            }
+                        }
                 }
 
 
-
-
-
             }
-
-
-
-
-
 
 
         }

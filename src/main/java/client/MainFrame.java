@@ -1,6 +1,7 @@
 package client;
 
 import band_data.MusicBand;
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import server.ServerCommand;
 import special.Constants;
 import special.Dict;
@@ -123,6 +124,20 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             g2.drawRect(0, 0, 200, 180);
         }
     }
+    public class JLabelNote extends JLabel{
+        public JLabelNote(ImageIcon img){
+            super(img);
+        }
+        private long id=0;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+    }
 
 
     JScrollPane scrollPane = new JScrollPane(table);
@@ -191,12 +206,55 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                     return;
                 }
                 if (e.getButton() == 3) {
+                    System.out.println(rowindex);
+                    long band_id= (Long)tableModel.getValueAt(rowindex,0);
+                    System.out.println(band_id);
+
                     JPopupMenu popup = new JPopupMenu();
-                    popup.add(new JMenuItem("Edit"));
-                    popup.add(new JMenuItem("Delete"));
+                    JMenuItem editItem = new JMenuItem("Edit");
+                    JMenuItem deleteItem = new JMenuItem("Delete");
+                    popup.add(editItem);
+                    popup.add(deleteItem);
+
+                    editItem.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            super.mouseReleased(e);
+                            System.out.println("Updating band with id "+band_id);
+
+                            EnterMusicBand.run("update_"+band_id, Dict.getTranslation("Edit"), mainFrame);
+                        }
+                    });
+
+                    deleteItem.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            super.mouseReleased(e);
+                            System.out.println("Deleting band with id "+band_id);
+
+                            try {
+                                String[] commandParams = {band_id+""};
+
+                                ServerCommand serverCommand = new ServerCommand("remove_by_id", commandParams);
+                                serverCommand.setUserLogin(Constants.getUserLogin());
+                                serverCommand.setUserPassword(Constants.getUserPassword());
+                                String message = serverCommand.serializeToString();
+
+                                String received = ClientSide.sendMessage(message);
+                                JOptionPane.showMessageDialog(null, received);
+                            } catch (IOException ee) {
+                                ee.printStackTrace();
+                                JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                            }
+                            showData();
+
+                        }
+                    });
+
+
                     popup.setVisible(true);
                     popup.show(e.getComponent(), e.getX(), e.getY());
-                    System.out.println(rowindex);
+
                 }
             }
         });
@@ -321,7 +379,15 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         });
 
     }
+    public void clickedOnBandId(long id){
+        for(MusicBand band: musicBands){
+            if(band.getId()==id){
+                JOptionPane.showMessageDialog(null, band.toString());
 
+                break;
+            }
+        }
+    }
     public void showData() {
         try {
             ServerCommand serverCommand = new ServerCommand("show", new String[0]);
@@ -356,8 +422,17 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                     musicBands.add(band);
                     tableModel.addRow(band.toTableRow());
 
-                    JLabel picLabel = new JLabel(new ImageIcon(img));
+                    JLabelNote picLabel = new JLabelNote(new ImageIcon(img));
+                    picLabel.setId(band.getId());
+                    picLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            super.mouseReleased(e);
+                            clickedOnBandId(picLabel.getId());
+                        }
+                    });
                     picLabel.setBounds((int)(band.getCoordinates().getX()+0),(int)(band.getCoordinates().getY()+0),16,16);
+                    System.out.println(picLabel);
                     notes.add(picLabel);
 
 //                    mapPanel.drawNote(band.getCoordinates().getX(), band.getCoordinates().getY());

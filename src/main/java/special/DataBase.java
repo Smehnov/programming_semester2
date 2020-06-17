@@ -116,17 +116,19 @@ public class DataBase {
                     Class.forName("org.postgresql.Driver");
                     Connection connection = DriverManager.getConnection(DB_URL, login, password);
                     connection.setAutoCommit(false);
-                    String insertSQL = "UPDATE Derechi_Smehnov_Music_Bands" +
-                            "NAME = ?" +
-                            "COORDINATE_x = ?" +
-                            "COORDINATE_y = ?" +
-                            "CREATION_DATE = ?" +
-                            "NUMBER_OF_PARTICIPANTS = ?" +
-                            "GENRE = ?" +
-                            "BEST_ALBUM_NAME = ?" +
-                            "BEST_ALBUM_LENGTH = ?" +
-                            " WHERE ID=?;";
+                    String insertSQL = "UPDATE Derechi_Smehnov_Music_Bands SET" +
+                            " NAME=?," +
+                            " COORDINATE_x=?," +
+                            " COORDINATE_y= ?," +
+                            " CREATION_DATE= ?," +
+                            " NUMBER_OF_PARTICIPANTS= ?," +
+                            " GENRE= ?," +
+                            " BEST_ALBUM_NAME= ?," +
+                            " BEST_ALBUM_LENGTH= ?" +
+                            " WHERE ID= ?;";
                     PreparedStatement stat = connection.prepareStatement(insertSQL);
+
+
                     stat.setString(1, band.getName());
                     stat.setDouble(2, band.getCoordinates().getX());
                     stat.setFloat(3, band.getCoordinates().getY());
@@ -141,8 +143,9 @@ public class DataBase {
                         stat.setString(7, "");
                         stat.setLong(8, 0);
                     }
-                    stat.setInt(9, user_id);
+                    stat.setLong(9, band.getId());
 
+                    System.out.println(stat);
 
                     stat.executeUpdate();
                     stat.close();
