@@ -141,7 +141,11 @@ public class ServerSide {
                 msg2 += ((MusicBand) k).toString();
             }
             long newSize = musicBandsData1.getListOfIds().size();
-            msg2 = "Removed";
+            if(Math.abs(newSize -oldSize)>0) {
+                msg2 = "Removed";
+            }else{
+                msg2="Collection is empty";
+            }
             DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
             return msg2;

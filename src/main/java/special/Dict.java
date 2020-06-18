@@ -29,6 +29,8 @@ public class Dict {
         addWord("New element isn't less then min element", new Word("Новый элемент не меньше текущих", "Новий елемент не менше поточних", "Nov izdelek ne manj kot trenutni", "Nuevo elemento no menos que el actual"));
         addWord("New element isn't greater than max element", new Word("Новый элемент не  больше текущих", "Новий елемент не більше поточних", "Nov element ne več kot trenutni", "Nuevo elemento no más que el actual"));
         addWord("Collection is empty, use >add command instead", new Word("Коллекция пустая, используйте команду добавить","Колекція порожня, використовуйте команду додати","Zbirka je prazna, uporabite ukaz add","La colección está vacía, use el comando agregar"));
+        addWord("Collection is empty", new Word("Коллекция пустая","Колекція порожня","Zbirka je prazna","La colección está vacía"));
+
         addWord("Edit", new Word("Редактировать", "Редагувати", "Uredi", "Editar"));
         addWord("Delete", new Word("Удалить", "Вилучити", "Izbriši", "Eliminar"));
         addWord("Removed", new Word("Удаление выполнено","Видалення виконано","Odstranite dokončano","Desinstalar completo"));
