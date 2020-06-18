@@ -25,6 +25,10 @@ public class Dict {
         addWord("New element was added!", new Word("Новый элемент добавлен!", "Новий елемент доданий!", "Nov izdelek je dodan!", "Nov izdelek je dodan!"));
         addWord("Collection was cleared", new Word("Коллекция очищена", "Колекція очищена", "Zbirka je očiščena", "Colección borrada"));
         addWord("Band was removed", new Word("Группа удалена", "Група видалена", "Skupina je izbrisana", "Grupo eliminado"));
+        addWord("Band info was updated", new Word("Информация о группе была обновлена","Інформація про групу була оновлена","Podatki o skupini so bili posodobljeni.","La información del grupo ha sido actualizada."));
+        addWord("New element isn't less then min element", new Word("Новый элемент не меньше текущих", "Новий елемент не менше поточних", "Nov izdelek ne manj kot trenutni", "Nuevo elemento no menos que el actual"));
+        addWord("New element isn't greater than max element", new Word("Новый элемент не  больше текущих", "Новий елемент не більше поточних", "Nov element ne več kot trenutni", "Nuevo elemento no más que el actual"));
+
 
     }
 

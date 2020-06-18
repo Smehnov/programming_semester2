@@ -164,7 +164,7 @@ public class ServerSide {
                     MusicBand newMusicBand = musicBandsData1.getElementById(id);
                     DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
-                    return ("Element with id " + id + " was updated, new one:\n" + newMusicBand);
+                    return ("Band info was updated");
                 } else {
                     return ("Band with id " + id + " doesn't exist");
                 }
@@ -232,7 +232,7 @@ public class ServerSide {
                     DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
 
-                    return ("New element added:" + musicBand);
+                    return ("New element was added!");
                 } else {
                     return ("New element isn't less then min element");
                 }
@@ -240,7 +240,7 @@ public class ServerSide {
                 return "Can't parse sent band";
             }
         } else {
-            return ("Collection is empty, use >add command instead");
+            return ("Collection is empty, use add command");
         }
     }
 
@@ -255,7 +255,7 @@ public class ServerSide {
                     musicBandsData1.addMusicBand(musicBand);
                     DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
-                    return ("New element added:" + musicBand);
+                    return ("New element was added!");
 
                 } else {
                     return ("New element isn't greater than max element");

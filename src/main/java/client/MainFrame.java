@@ -21,7 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.TimerTask;
+import java.util.Timer;
 public class MainFrame extends JFrame implements ActionListener, TableModelListener {
     Container container = getContentPane();
     JButton AddButton = new JButton(Dict.getTranslation("Add"));
@@ -39,6 +40,8 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     MainFrame mainFrame = this;
     ArrayList<String[]> t = new ArrayList<>();
     ArrayList<JLabel> notes = new ArrayList<>();
+    JLabelNote rotatingNote = null;
+
 
     ArrayList<MusicBand> musicBands = new ArrayList<>();
     String[] col = {"id", "name", "coord_x", "coord_y", "creation_date", "number of participants", "genre", "best album name", "best album length"};
@@ -71,6 +74,21 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
     };
     List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
 
+    class RotateNote extends TimerTask {
+        int step = 0;
+
+        public void run() {
+            if( step>=32){
+                this.cancel();
+                rotatingNote.setAngle(0);
+            }
+            if (rotatingNote != null) {
+                rotatingNote.setAngle(rotatingNote.getAngle() + Math.PI / 32);
+                rotatingNote.repaint();
+                step+=1;
+            }
+        }
+    }
 
     Graphics2D graphics;
     JTable table = new JTable(tableModel) {
@@ -87,26 +105,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         Graphics2D g2;
 
         public void drawNote(Graphics2D g2, double x, double y) {
-//            try {
-//
-////                File f = new File("note.png");
-////                BufferedImage img = ImageIO.read(f);
-////                g2.drawImage(img, (int) x, (int) y, null);
-//
-//
-////                AffineTransform tfm = new AffineTransform();
-////                tfm.rotate(0,0,0);
-////                g2.setTransform(tfm);
-////                g2.drawImage(img, (int) x, (int) y, null);
-////                tfm.rotate(Math.toRadians(0), 8, 8);
-////                g2.setTransform(tfm);
-//
-//
-//            } catch (IOException e) {
-//                System.out.println("CAN'T LOAD IMAGE");
-//                e.printStackTrace();
-//
-//            }
+
         }
 
         @Override
@@ -124,11 +123,33 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             g2.drawRect(0, 0, 200, 180);
         }
     }
-    public class JLabelNote extends JLabel{
-        public JLabelNote(ImageIcon img){
+
+    public class JLabelNote extends JLabel {
+
+        public JLabelNote(ImageIcon img) {
             super(img);
         }
-        private long id=0;
+
+        public JLabelNote() {
+            super();
+        }
+
+        private long id = 0;
+        private double angle = 0;
+
+        public double getAngle() {
+            return angle;
+        }
+
+        public void setAngle(double angle) {
+            this.angle = angle;
+        }
+
+        public void rotate() {
+            rotatingNote = this;
+            Timer timer = new Timer();
+            timer.schedule(new RotateNote(), 0, 50);
+        }
 
         public long getId() {
             return id;
@@ -137,6 +158,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         public void setId(long id) {
             this.id = id;
         }
+
     }
 
 
@@ -162,14 +184,14 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
     }
 
-    void addNotes(){
-        for(JLabel pic:notes) {
+    void addNotes() {
+        for (JLabel pic : notes) {
             mapPanel.add(pic);
         }
     }
 
-    void clearNotes(){
-        for(JLabel pic:notes){
+    void clearNotes() {
+        for (JLabel pic : notes) {
             mapPanel.remove(pic);
         }
         notes.clear();
@@ -207,7 +229,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                 }
                 if (e.getButton() == 3) {
                     System.out.println(rowindex);
-                    long band_id= (Long)tableModel.getValueAt(rowindex,0);
+                    long band_id = (Long) tableModel.getValueAt(rowindex, 0);
                     System.out.println(band_id);
 
                     JPopupMenu popup = new JPopupMenu();
@@ -220,9 +242,9 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                         @Override
                         public void mouseReleased(MouseEvent e) {
                             super.mouseReleased(e);
-                            System.out.println("Updating band with id "+band_id);
+                            System.out.println("Updating band with id " + band_id);
 
-                            EnterMusicBand.run("update_"+band_id, Dict.getTranslation("Edit"), mainFrame);
+                            EnterMusicBand.run("update_" + band_id, Dict.getTranslation("Edit"), mainFrame);
                         }
                     });
 
@@ -230,10 +252,10 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                         @Override
                         public void mouseReleased(MouseEvent e) {
                             super.mouseReleased(e);
-                            System.out.println("Deleting band with id "+band_id);
+                            System.out.println("Deleting band with id " + band_id);
 
                             try {
-                                String[] commandParams = {band_id+""};
+                                String[] commandParams = {band_id + ""};
 
                                 ServerCommand serverCommand = new ServerCommand("remove_by_id", commandParams);
                                 serverCommand.setUserLogin(Constants.getUserLogin());
@@ -333,6 +355,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("ru");
                 updateText();
+                showData();
             }
         });
         UAButton.addMouseListener(new MouseAdapter() {
@@ -340,6 +363,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("ua");
                 updateText();
+                showData();
             }
         });
         SLButton.addMouseListener(new MouseAdapter() {
@@ -347,6 +371,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("sl");
                 updateText();
+                showData();
             }
         });
         ESButton.addMouseListener(new MouseAdapter() {
@@ -354,6 +379,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
             public void mouseReleased(MouseEvent e) {
                 Dict.setCurrentLang("es");
                 updateText();
+                showData();
             }
         });
 
@@ -379,15 +405,17 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         });
 
     }
-    public void clickedOnBandId(long id){
-        for(MusicBand band: musicBands){
-            if(band.getId()==id){
+
+    public void clickedOnBandId(long id) {
+        for (MusicBand band : musicBands) {
+            if (band.getId() == id) {
                 JOptionPane.showMessageDialog(null, band.toString());
 
                 break;
             }
         }
     }
+
     public void showData() {
         try {
             ServerCommand serverCommand = new ServerCommand("show", new String[0]);
@@ -405,24 +433,41 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                 for (int i = 0; i < rowCount; i++) {
                     try {
                         tableModel.removeRow(0);
-                    }
-                    catch (IndexOutOfBoundsException e){
+                    } catch (IndexOutOfBoundsException e) {
                         //жизнь боль
                     }
 
                 }
+
                 ArrayList<MusicBand> bands = (ArrayList<MusicBand>) received[1];
+                boolean should_rotate = bands.size()-musicBands.size()==1;
+
                 musicBands.clear();
 
                 File f = new File("note.png");
                 BufferedImage img = ImageIO.read(f);
                 clearNotes();
+                long max_id = -1;
+
+
                 for (MusicBand band :
                         bands) {
                     musicBands.add(band);
                     tableModel.addRow(band.toTableRow());
 
-                    JLabelNote picLabel = new JLabelNote(new ImageIcon(img));
+                    JLabelNote picLabel = new JLabelNote() {
+                        @Override
+                        protected void paintComponent(Graphics g) {
+                            super.paintComponent(g);
+                            Graphics2D g2 = (Graphics2D) g;
+
+                            g2.rotate(this.getAngle(), img.getWidth() / 2, img.getHeight() / 2);
+                            g2.drawImage(img, 0, 0, null);
+                        }
+                    };
+                    picLabel.repaint();
+
+
                     picLabel.setId(band.getId());
                     picLabel.addMouseListener(new MouseAdapter() {
                         @Override
@@ -431,7 +476,12 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                             clickedOnBandId(picLabel.getId());
                         }
                     });
-                    picLabel.setBounds((int)(band.getCoordinates().getX()+0),(int)(band.getCoordinates().getY()+0),16,16);
+                    picLabel.setBounds((int) (band.getCoordinates().getX() + 0), (int) (band.getCoordinates().getY() + 0), 16, 16);
+                    if (should_rotate && band.getId()>max_id) {
+
+                        picLabel.rotate();
+                        max_id=band.getId();
+                    }
                     System.out.println(picLabel);
                     notes.add(picLabel);
 
