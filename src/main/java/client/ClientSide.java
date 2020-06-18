@@ -5,6 +5,7 @@ import band_data.MusicBandsData;
 import band_data.MusicBandsDataXMLSerializer;
 import server.ServerCommand;
 import special.Constants;
+import special.Dict;
 import sun.nio.ch.DatagramSocketAdaptor;
 
 import javax.xml.bind.JAXBException;
@@ -66,7 +67,7 @@ public class ClientSide {
             try {
                 ServerCommand serverAnswer = ServerCommand.deserializeFromString(received);
                 if (serverAnswer.getType().equals("message")) {
-                    return new String[]{serverAnswer.getParams()[0]};
+                    return new String[]{Dict.getTranslation(serverAnswer.getParams()[0])};
                 }
                 if(serverAnswer.getType().equals("bands")){
                     try {

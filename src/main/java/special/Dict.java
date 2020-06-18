@@ -22,6 +22,9 @@ public class Dict {
         addWord("Name of the best album", new Word("Название лучшего альбома","Назва кращого альбому","Ime najboljšega albuma","El nombre del mejor álbum"));
         addWord("Length", new Word("Длина","Довжина","Dolžina","Longitud"));
         addWord("Enter", new Word("Ввод","Введення","Vnesite","Entrar"));
+        addWord("New element was added!", new Word("Новый элемент добавлен!", "Новий елемент доданий!", "Nov izdelek je dodan!", "Nov izdelek je dodan!"));
+        addWord("Collection was cleared", new Word("Коллекция очищена", "Колекція очищена", "Zbirka je očiščena", "Colección borrada"));
+        addWord("Band was removed", new Word("Группа удалена", "Група видалена", "Skupina je izbrisana", "Grupo eliminado"));
 
     }
 

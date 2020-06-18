@@ -281,9 +281,9 @@ public class ServerSide {
                         .get());
                 DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
-                return ("Band with id " + id + " was removed");
+                return ("Band was removed");
             } else {
-                return ("Band with id " + id + " not found");
+                return ("Band not found");
             }
 
 
