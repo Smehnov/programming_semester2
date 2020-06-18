@@ -141,7 +141,7 @@ public class ServerSide {
                 msg2 += ((MusicBand) k).toString();
             }
             long newSize = musicBandsData1.getListOfIds().size();
-            msg2 += ((oldSize - newSize) + " elements greater than " + musicBand + "\nwere removed");
+            msg2 = "Removed";
             DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 
             return msg2;
@@ -240,7 +240,7 @@ public class ServerSide {
                 return "Can't parse sent band";
             }
         } else {
-            return ("Collection is empty, use add command");
+            return ("Collection is empty, use >add command instead");
         }
     }
 
@@ -348,7 +348,7 @@ public class ServerSide {
 
     String sumOfNumberOfParticipants(ServerCommand serverCommand, UserInfo userInfo) {
         MusicBandsData musicBandsData1 = DataBase.getMusicBandsDataByUserId(userInfo.getId());
-        return ("Total participants in all bands: " + musicBandsData1.getQueue().stream()
+        return ("" + musicBandsData1.getQueue().stream()
                 .mapToInt(o -> o.getNumberOfParticipants()).sum());
     }
 

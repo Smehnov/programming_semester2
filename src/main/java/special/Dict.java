@@ -28,8 +28,10 @@ public class Dict {
         addWord("Band info was updated", new Word("Информация о группе была обновлена","Інформація про групу була оновлена","Podatki o skupini so bili posodobljeni.","La información del grupo ha sido actualizada."));
         addWord("New element isn't less then min element", new Word("Новый элемент не меньше текущих", "Новий елемент не менше поточних", "Nov izdelek ne manj kot trenutni", "Nuevo elemento no menos que el actual"));
         addWord("New element isn't greater than max element", new Word("Новый элемент не  больше текущих", "Новий елемент не більше поточних", "Nov element ne več kot trenutni", "Nuevo elemento no más que el actual"));
-
-
+        addWord("Collection is empty, use >add command instead", new Word("Коллекция пустая, используйте команду добавить","Колекція порожня, використовуйте команду додати","Zbirka je prazna, uporabite ukaz add","La colección está vacía, use el comando agregar"));
+        addWord("Edit", new Word("Редактировать", "Редагувати", "Uredi", "Editar"));
+        addWord("Delete", new Word("Удалить", "Вилучити", "Izbriši", "Eliminar"));
+        addWord("Removed", new Word("Удаление выполнено","Видалення виконано","Odstranite dokončano","Desinstalar completo"));
     }
 
     public static void setCurrentLang(String lang) {

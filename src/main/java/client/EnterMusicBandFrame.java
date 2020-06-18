@@ -260,6 +260,87 @@ public class EnterMusicBandFrame extends JFrame implements ActionListener {
                             JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
                         }
                         break;
+                    case "add_if_max":
+                        try {
+                            String[] commandParams = new String[1];
+
+                            commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(band);
+                            ServerCommand serverCommand = new ServerCommand("add_if_max", commandParams);
+                            serverCommand.setUserLogin(Constants.getUserLogin());
+                            serverCommand.setUserPassword(Constants.getUserPassword());
+                            String message = serverCommand.serializeToString();
+
+                            String received = ClientSide.sendMessage(message);
+                            JOptionPane.showMessageDialog(null, received);
+
+                            mainFrame.showData();
+                            this.setVisible(false);
+                            mainFrame.setVisible(true);
+
+                            this.dispose();
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                        } catch (JAXBException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
+                        }
+                        break;
+                    case "add_if_min":
+                        try {
+                            String[] commandParams = new String[1];
+
+                            commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(band);
+                            ServerCommand serverCommand = new ServerCommand("add_if_min", commandParams);
+                            serverCommand.setUserLogin(Constants.getUserLogin());
+                            serverCommand.setUserPassword(Constants.getUserPassword());
+                            String message = serverCommand.serializeToString();
+
+                            String received = ClientSide.sendMessage(message);
+                            JOptionPane.showMessageDialog(null, received);
+
+                            mainFrame.showData();
+                            this.setVisible(false);
+                            mainFrame.setVisible(true);
+
+                            this.dispose();
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                        } catch (JAXBException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
+                        }
+                        break;
+                    case "remove_greater":
+                        try {
+                            String[] commandParams = new String[1];
+
+                            commandParams[0] = MusicBandsDataXMLSerializer.serializeMusicBand(band);
+                            ServerCommand serverCommand = new ServerCommand("remove_greater", commandParams);
+                            serverCommand.setUserLogin(Constants.getUserLogin());
+                            serverCommand.setUserPassword(Constants.getUserPassword());
+                            String message = serverCommand.serializeToString();
+
+                            String received = ClientSide.sendMessage(message);
+                            JOptionPane.showMessageDialog(null, received);
+
+                            mainFrame.showData();
+                            this.setVisible(false);
+                            mainFrame.setVisible(true);
+
+                            this.dispose();
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't connect to server, try to enter command again");
+                        } catch (JAXBException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Can't serialize music band :(");
+                        }
+                        break;
                     default:
                         if (type.startsWith("update_")) {
                             long band_id = Long.parseLong(type.replace("update_", ""));

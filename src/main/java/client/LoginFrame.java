@@ -79,37 +79,38 @@ public class LoginFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //Coding Part of SIGNIN button
+        String userText;
+        String pwdText;
+        userText = userTextField.getText().trim();
+        pwdText = new String(passwordField.getPassword());
+        System.out.println("username " + userText);
+        System.out.println("password " + pwdText);
+
+        if (Pattern.matches("^[a-zA-Z0-9._-]{3,}$", userText)) {
+            usernameIsOk = true;
+        }else{
+            usernameIsOk = false;
+        }
+
+        if (!pwdText.contains(" ") && pwdText.length()>=3){
+            passwordIsOk = true;
+        }else{
+            passwordIsOk = false;
+        }
+
+        if (!usernameIsOk) {
+            userTextField.setBackground(new Color(190, 115, 106));
+        } else {
+            userTextField.setBackground(new Color(255, 255, 255));
+        }
+
+        if (!passwordIsOk) {
+            passwordField.setBackground(new Color(190, 115, 106));
+        }else{
+            passwordField.setBackground(new Color(255, 255, 255));
+        }
         if (e.getSource() == signinButton) {
-            String userText;
-            String pwdText;
-            userText = userTextField.getText().trim();
-            pwdText = new String(passwordField.getPassword());
-            System.out.println("username " + userText);
-            System.out.println("password " + pwdText);
 
-            if (Pattern.matches("^[a-zA-Z0-9._-]{3,}$", userText)) {
-                usernameIsOk = true;
-            }else{
-                usernameIsOk = false;
-            }
-
-            if (!pwdText.contains(" ") && pwdText.length()>=3){
-                passwordIsOk = true;
-            }else{
-                passwordIsOk = false;
-            }
-
-            if (!usernameIsOk) {
-                userTextField.setBackground(new Color(190, 115, 106));
-            } else {
-                userTextField.setBackground(new Color(255, 255, 255));
-            }
-
-            if (!passwordIsOk) {
-                passwordField.setBackground(new Color(190, 115, 106));
-            }else{
-                passwordField.setBackground(new Color(255, 255, 255));
-            }
 
             if (usernameIsOk && passwordIsOk) {
                 Constants.setUserLogin(userText);
@@ -152,10 +153,31 @@ public class LoginFrame extends JFrame implements ActionListener {
         }
         //Coding Part of Register button
         if (e.getSource() == registerButton) {
-            String userText;
-            String pwdText;
-            userText = userTextField.getText();
-            pwdText = new String(passwordField.getPassword());
+            if (usernameIsOk && passwordIsOk) {
+                Constants.setUserLogin(userText);
+                Constants.setUserPassword(pwdText);
+                try {
+                    String[] commandParams = null;
+
+                    ServerCommand serverCommand = new ServerCommand("register", commandParams);
+                    serverCommand.setUserLogin(Constants.getUserLogin());
+                    serverCommand.setUserPassword(Constants.getUserPassword());
+                    String message = serverCommand.serializeToString();
+
+                    String received = ClientSide.sendMessage(message);
+                    JOptionPane.showMessageDialog(null, received);
+                    if (received.equals("You were registred")) {
+                        MainWindow.main(new String[]{});
+                        this.setVisible(false);
+                        this.dispose();
+                    }
+                } catch (IOException|java.nio.channels.UnresolvedAddressException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Can't connect to server");
+                }
+
+
+            }
             System.out.println("username " + userText);
             System.out.println("password " + pwdText);
         }

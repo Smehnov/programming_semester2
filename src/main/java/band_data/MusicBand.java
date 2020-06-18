@@ -1,9 +1,12 @@
 package band_data;
 
+import special.Dict;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 /**
@@ -15,7 +18,22 @@ public class MusicBand implements Comparable<MusicBand> {
 
     public Object[] toTableRow(){
         //TODO LOCALIZE DATE
-        return new Object[]{this.id, this.name, this.coordinates.getX(), this.coordinates.getY(), this.creationDate, this.numberOfParticipants, this.genre, this.bestAlbum.getName(), this.bestAlbum.getName().trim()!=""?this.bestAlbum.getLength():null};
+        ZoneId zone = ZoneId.of("UTC");
+        switch (Dict.getCurrentLang()){
+            case "ru":
+                zone = ZoneId.of("UTC-3");
+                break;
+            case "es":
+                zone = ZoneId.of("UTC-6");
+                break;
+            case "sl":
+                zone = ZoneId.of("UTC-3");
+                break;
+            case "ua":
+                zone = ZoneId.of("UTC-3");
+                break;
+        }
+        return new Object[]{this.id, this.name, this.coordinates.getX(), this.coordinates.getY(), this.creationDate.toLocalDateTime().atZone(zone), this.numberOfParticipants, this.genre, this.bestAlbum.getName(), this.bestAlbum.getName().trim()!=""?this.bestAlbum.getLength():null};
     }
     public MusicBand() {
         this.id = 0;

@@ -133,6 +133,15 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         public JLabelNote() {
             super();
         }
+        private int noteSize = 16;
+
+        public int getNoteSize() {
+            return noteSize;
+        }
+
+        public void setNoteSize(int noteSize) {
+            this.noteSize = noteSize;
+        }
 
         private long id = 0;
         private double angle = 0;
@@ -148,7 +157,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         public void rotate() {
             rotatingNote = this;
             Timer timer = new Timer();
-            timer.schedule(new RotateNote(), 0, 50);
+            timer.schedule(new RotateNote(), 0, 20);
         }
 
         public long getId() {
@@ -233,8 +242,8 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                     System.out.println(band_id);
 
                     JPopupMenu popup = new JPopupMenu();
-                    JMenuItem editItem = new JMenuItem("Edit");
-                    JMenuItem deleteItem = new JMenuItem("Delete");
+                    JMenuItem editItem = new JMenuItem(Dict.getTranslation("Edit"));
+                    JMenuItem deleteItem = new JMenuItem(Dict.getTranslation("Delete"));
                     popup.add(editItem);
                     popup.add(deleteItem);
 
@@ -309,7 +318,25 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         AddButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                EnterMusicBand.run("add", "Add band", mainFrame);
+                EnterMusicBand.run("add", "Add", mainFrame);
+            }
+        });
+        AddIfMaxButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                EnterMusicBand.run("add_if_max", "Add", mainFrame);
+            }
+        });
+        AddIfMinButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                EnterMusicBand.run("add_if_min", "Add", mainFrame);
+            }
+        });
+        RemoveGreaterButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                EnterMusicBand.run("remove_greater", "Delete", mainFrame);
             }
         });
         InfoButton.addMouseListener(new MouseAdapter() {
@@ -459,12 +486,18 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                         @Override
                         protected void paintComponent(Graphics g) {
                             super.paintComponent(g);
+
                             Graphics2D g2 = (Graphics2D) g;
 
-                            g2.rotate(this.getAngle(), img.getWidth() / 2, img.getHeight() / 2);
-                            g2.drawImage(img, 0, 0, null);
+                            g2.rotate(this.getAngle(), (int)this.getNoteSize() / 2, (int)this.getNoteSize() / 2);
+                            g2.drawImage(img, 0, 0,this.getNoteSize(),this.getNoteSize(), null);
                         }
                     };
+                    int noteSize = (int)(band.getNumberOfParticipants() *8);
+                    if (noteSize>64) {
+                        noteSize = 64;
+                    }
+                    picLabel.setNoteSize(noteSize);
                     picLabel.repaint();
 
 
@@ -476,7 +509,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                             clickedOnBandId(picLabel.getId());
                         }
                     });
-                    picLabel.setBounds((int) (band.getCoordinates().getX() + 0), (int) (band.getCoordinates().getY() + 0), 16, 16);
+                    picLabel.setBounds((int) (band.getCoordinates().getX() + 0), (int) (band.getCoordinates().getY() + 0), noteSize, noteSize);
                     if (should_rotate && band.getId()>max_id) {
 
                         picLabel.rotate();
