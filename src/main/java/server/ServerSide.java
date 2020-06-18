@@ -144,7 +144,7 @@ public class ServerSide {
             if(Math.abs(newSize -oldSize)>0) {
                 msg2 = "Removed";
             }else{
-                msg2="Collection is empty";
+                msg2="Nothing to delete";
             }
             DataBase.saveMusicBandsDataForUserWithId(userInfo.getId(), musicBandsData1);
 

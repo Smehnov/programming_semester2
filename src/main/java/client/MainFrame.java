@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.Timer;
+
 public class MainFrame extends JFrame implements ActionListener, TableModelListener {
     Container container = getContentPane();
     JButton AddButton = new JButton(Dict.getTranslation("Add"));
@@ -78,14 +79,14 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         int step = 0;
 
         public void run() {
-            if( step>=32){
+            if (step >= 32) {
                 this.cancel();
                 rotatingNote.setAngle(0);
             }
             if (rotatingNote != null) {
                 rotatingNote.setAngle(rotatingNote.getAngle() + Math.PI / 32);
                 rotatingNote.repaint();
-                step+=1;
+                step += 1;
             }
         }
     }
@@ -133,6 +134,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         public JLabelNote() {
             super();
         }
+
         private int noteSize = 16;
 
         public int getNoteSize() {
@@ -437,7 +439,6 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
         for (MusicBand band : musicBands) {
             if (band.getId() == id) {
                 JOptionPane.showMessageDialog(null, band.toString());
-
                 break;
             }
         }
@@ -467,7 +468,7 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                 }
 
                 ArrayList<MusicBand> bands = (ArrayList<MusicBand>) received[1];
-                boolean should_rotate = bands.size()-musicBands.size()==1;
+                boolean should_rotate = bands.size() - musicBands.size() == 1;
 
                 musicBands.clear();
 
@@ -489,12 +490,12 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
 
                             Graphics2D g2 = (Graphics2D) g;
 
-                            g2.rotate(this.getAngle(), (int)this.getNoteSize() / 2, (int)this.getNoteSize() / 2);
-                            g2.drawImage(img, 0, 0,this.getNoteSize(),this.getNoteSize(), null);
+                            g2.rotate(this.getAngle(), (int) this.getNoteSize() / 2, (int) this.getNoteSize() / 2);
+                            g2.drawImage(img, 0, 0, this.getNoteSize(), this.getNoteSize(), null);
                         }
                     };
-                    int noteSize = (int)(band.getNumberOfParticipants() *8);
-                    if (noteSize>64) {
+                    int noteSize = (int) (band.getNumberOfParticipants() * 8);
+                    if (noteSize > 64) {
                         noteSize = 64;
                     }
                     picLabel.setNoteSize(noteSize);
@@ -510,10 +511,10 @@ public class MainFrame extends JFrame implements ActionListener, TableModelListe
                         }
                     });
                     picLabel.setBounds((int) (band.getCoordinates().getX() + 0), (int) (band.getCoordinates().getY() + 0), noteSize, noteSize);
-                    if (should_rotate && band.getId()>max_id) {
+                    if (should_rotate && band.getId() > max_id) {
 
                         picLabel.rotate();
-                        max_id=band.getId();
+                        max_id = band.getId();
                     }
                     System.out.println(picLabel);
                     notes.add(picLabel);
